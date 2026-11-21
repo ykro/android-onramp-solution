@@ -59,7 +59,7 @@ tasks.register("doctor") {
         } else {
             println("[FALTA] No se encontró un Android SDK válido con plataformas instaladas.")
             issues += """
-                Configura el SDK de Android antes de pasar a curso3-android-compose:
+                Configura el SDK de Android antes de pasar a android-course:
                   1. Abre Android Studio -> Settings -> Languages & Frameworks -> Android SDK.
                   2. Instala al menos una plataforma reciente (por ejemplo Android 35 o 36).
                   3. Exporta ANDROID_HOME en tu terminal:

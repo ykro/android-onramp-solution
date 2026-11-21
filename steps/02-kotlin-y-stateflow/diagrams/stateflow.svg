@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 960 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="sf-title sf-desc">
+  <title id="sf-title">StateFlow con MutableList frente a copy con List inmutable</title>
+  <desc id="sf-desc">Comparación entre mutar una MutableList en memoria, donde StateFlow ve el mismo objeto y no emite, frente a crear una nueva instancia con copy y una nueva lista, donde StateFlow sí notifica a la pantalla.</desc>
+  <defs>
+    <marker id="arr-red" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#B91C1C"/>
+    </marker>
+    <marker id="arr-green" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#15803D"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="400" rx="12" fill="#F8F7F4"/>
+
+  <text x="32" y="40" fill="#0F2547" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="19" font-weight="700">Paso 2 — Por qué StateFlow no emite cuando mutas una MutableList</text>
+  <text x="32" y="62" fill="#475569" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13">StateFlow compara el estado anterior con el nuevo usando == antes de avisar a la pantalla</text>
+
+  <!-- Panel Izquierdo: Error con MutableList -->
+  <rect x="32" y="84" width="436" height="288" rx="10" fill="#FFFFFF" stroke="#FECACA" stroke-width="1.5"/>
+  <rect x="48" y="100" width="160" height="24" rx="4" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1"/>
+  <text x="128" y="116" fill="#B91C1C" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11" font-weight="700" text-anchor="middle">ERROR: MutableList</text>
+
+  <rect x="48" y="138" width="404" height="58" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="62" y="160" fill="#0F2547" font-family="ui-monospace, SFMono-Regular, monospace" font-size="12">val current = _state.value</text>
+  <text x="62" y="180" fill="#B91C1C" font-family="ui-monospace, SFMono-Regular, monospace" font-size="12">current.orders.add("Capuchino")</text>
+
+  <line x1="250" y1="196" x2="250" y2="226" stroke="#B91C1C" stroke-width="2" marker-end="url(#arr-red)"/>
+
+  <rect x="48" y="232" width="404" height="60" rx="6" fill="#FFF7ED" stroke="#FDBA74" stroke-width="1"/>
+  <text x="62" y="254" fill="#9A3412" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="600">Misma referencia en memoria (@0x4A10)</text>
+  <text x="62" y="275" fill="#7C2D12" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11.5">anterior == nuevo  →  true (se compara consigo mismo)</text>
+
+  <rect x="48" y="308" width="404" height="46" rx="6" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1"/>
+  <text x="250" y="336" fill="#B91C1C" font-family="system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="700" text-anchor="middle">StateFlow ignora el cambio · La pantalla no se actualiza</text>
+
+  <!-- Panel Derecho: Solución con copy y List -->
+  <rect x="492" y="84" width="436" height="288" rx="10" fill="#FFFFFF" stroke="#BBF7D0" stroke-width="1.5"/>
+  <rect x="508" y="100" width="214" height="24" rx="4" fill="#ECFDF5" stroke="#86EFAC" stroke-width="1"/>
+  <text x="615" y="116" fill="#15803D" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11" font-weight="700" text-anchor="middle">CORRECTO: List + copy()</text>
+
+  <rect x="508" y="138" width="404" height="58" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="522" y="160" fill="#0F2547" font-family="ui-monospace, SFMono-Regular, monospace" font-size="12">_state.update { current -&gt;</text>
+  <text x="522" y="180" fill="#15803D" font-family="ui-monospace, SFMono-Regular, monospace" font-size="12">  current.copy(orders = current.orders + "Capuchino") }</text>
+
+  <line x1="710" y1="196" x2="710" y2="226" stroke="#15803D" stroke-width="2" marker-end="url(#arr-green)"/>
+
+  <rect x="508" y="232" width="404" height="60" rx="6" fill="#F0FDF4" stroke="#86EFAC" stroke-width="1"/>
+  <text x="522" y="254" fill="#166534" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="600">Nuevo estado (@0x8F20) con nueva List</text>
+  <text x="522" y="275" fill="#14532D" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11.5">[] == ["Capuchino"]  →  false (detecta el cambio)</text>
+
+  <rect x="508" y="308" width="404" height="46" rx="6" fill="#ECFDF5" stroke="#86EFAC" stroke-width="1"/>
+  <text x="710" y="336" fill="#15803D" font-family="system-ui, -apple-system, sans-serif" font-size="13.5" font-weight="700" text-anchor="middle">StateFlow emite el nuevo valor · La pantalla se redibuja</text>
+</svg>

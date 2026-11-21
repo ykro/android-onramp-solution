@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 960 410" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="cui-title cui-desc">
+  <title id="cui-title">Corrutinas, cancelación y memoria entre redibujos</title>
+  <desc id="cui-desc">Tres pilares del Paso 3: reloj virtual en runTest con delay, propagación obligatoria de CancellationException, y conservación del estado con remember frente a una variable local que se reinicia.</desc>
+
+  <rect width="960" height="410" rx="12" fill="#F8F7F4"/>
+
+  <text x="32" y="40" fill="#0F2547" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="19" font-weight="700">Paso 3 — Corrutinas, cancelación y memoria en pantallas reactivas</text>
+  <text x="32" y="62" fill="#475569" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13">Tres mecanismos esenciales para que tu app sea fluida, cancelable y no pierda estado</text>
+
+  <!-- Columna 1: Reloj virtual -->
+  <rect x="32" y="84" width="284" height="298" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+  <rect x="48" y="100" width="128" height="22" rx="4" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+  <text x="112" y="115" fill="#1D4ED8" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11" font-weight="700" text-anchor="middle">1. RELOJ VIRTUAL</text>
+
+  <text x="48" y="146" fill="#0F2547" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">delay() dentro de runTest</text>
+  <text x="48" y="168" fill="#475569" font-family="system-ui, -apple-system, sans-serif" font-size="12">No congela el hilo principal.</text>
+  <text x="48" y="185" fill="#475569" font-family="system-ui, -apple-system, sans-serif" font-size="12">Adelanta 30 s en milisegundos.</text>
+
+  <rect x="48" y="204" width="252" height="72" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="60" y="226" fill="#0F2547" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11.5">emit(3) → delay(10_000)</text>
+  <text x="60" y="246" fill="#0F2547" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11.5">emit(2) → delay(10_000)</text>
+  <text x="60" y="266" fill="#0F2547" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11.5">emit(1) → delay(10_000) → 0</text>
+
+  <rect x="48" y="294" width="252" height="70" rx="6" fill="#ECFDF5" stroke="#86EFAC" stroke-width="1"/>
+  <text x="60" y="316" fill="#15803D" font-family="system-ui, -apple-system, sans-serif" font-size="12.5" font-weight="700">Turbine + runTest:</text>
+  <text x="60" y="335" fill="#166534" font-family="system-ui, -apple-system, sans-serif" font-size="12">Tiempo virtual: 30,000 ms</text>
+  <text x="60" y="353" fill="#166534" font-family="system-ui, -apple-system, sans-serif" font-size="12">Tiempo real: &lt; 200 ms</text>
+
+  <!-- Columna 2: CancellationException -->
+  <rect x="338" y="84" width="284" height="298" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+  <rect x="354" y="100" width="136" height="22" rx="4" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1"/>
+  <text x="422" y="115" fill="#B91C1C" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11" font-weight="700" text-anchor="middle">2. CANCELACIÓN</text>
+
+  <text x="354" y="146" fill="#0F2547" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">Relanza CancellationException</text>
+  <text x="354" y="168" fill="#475569" font-family="system-ui, -apple-system, sans-serif" font-size="12">Al cerrar la pantalla, Android</text>
+  <text x="354" y="185" fill="#475569" font-family="system-ui, -apple-system, sans-serif" font-size="12">cancela la tarea con esta señal.</text>
+
+  <rect x="354" y="204" width="252" height="86" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
+  <text x="366" y="224" fill="#0F2547" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11">try { action() }</text>
+  <text x="366" y="244" fill="#15803D" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11">catch (c: CancellationException)</text>
+  <text x="366" y="260" fill="#15803D" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11">  { throw c }</text>
+  <text x="366" y="278" fill="#2563EB" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11">catch (e: Exception) { "Error: ..." }</text>
+
+  <rect x="354" y="308" width="252" height="56" rx="6" fill="#FFF7ED" stroke="#FDBA74" stroke-width="1"/>
+  <text x="366" y="330" fill="#9A3412" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700">Si la atrapas sin relanzarla:</text>
+  <text x="366" y="349" fill="#7C2D12" font-family="system-ui, -apple-system, sans-serif" font-size="12">La corrutina queda viva en fondo.</text>
+
+  <!-- Columna 3: var local vs remember -->
+  <rect x="644" y="84" width="284" height="298" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+  <rect x="660" y="100" width="144" height="22" rx="4" fill="#F0FDF4" stroke="#86EFAC" stroke-width="1"/>
+  <text x="732" y="115" fill="#15803D" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11" font-weight="700" text-anchor="middle">3. ESTADO EN UI</text>
+
+  <text x="660" y="146" fill="#0F2547" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">var local frente a remember</text>
+  <text x="660" y="168" fill="#475569" font-family="system-ui, -apple-system, sans-serif" font-size="12">La pantalla se vuelve a llamar</text>
+  <text x="660" y="185" fill="#475569" font-family="system-ui, -apple-system, sans-serif" font-size="12">en cada redibujo.</text>
+
+  <rect x="660" y="204" width="252" height="72" rx="6" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1"/>
+  <text x="672" y="224" fill="#B91C1C" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11.5" font-weight="700">var count = 0</text>
+  <text x="672" y="244" fill="#7F1D1D" font-family="system-ui, -apple-system, sans-serif" font-size="12">Redibujo 1 → 0 · clic → 1</text>
+  <text x="672" y="262" fill="#7F1D1D" font-family="system-ui, -apple-system, sans-serif" font-size="12">Redibujo 2 → vuelve a 0</text>
+
+  <rect x="660" y="292" width="252" height="72" rx="6" fill="#ECFDF5" stroke="#86EFAC" stroke-width="1"/>
+  <text x="672" y="312" fill="#15803D" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11.5" font-weight="700">memory.remember("sessions") { 0 }</text>
+  <text x="672" y="332" fill="#166534" font-family="system-ui, -apple-system, sans-serif" font-size="12">Redibujo 1 → 0 · clic → 1</text>
+  <text x="672" y="350" fill="#166534" font-family="system-ui, -apple-system, sans-serif" font-size="12">Redibujo 2 → conserva 1</text>
+</svg>
