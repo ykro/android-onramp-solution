@@ -23,7 +23,7 @@ class ReadingStreakStudentTest {
     }
 
     @Test
-    fun `casos borde devuelven cero`() {
+    fun `edge cases devuelven cero`() {
         assertEquals(0, computeReadingStreak(emptyList()))
         assertEquals(0, computeReadingStreak(listOf(0, 0, 0)))
     }

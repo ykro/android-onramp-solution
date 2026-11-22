@@ -20,9 +20,9 @@
     <text x="370" y="220" font-size="14" fill="#44403c">DslBuilders.kt, OrderState.kt</text>
     <rect x="666" y="110" width="296" height="130" rx="12" fill="#ffffff" stroke="#d6d3d1"/>
     <rect x="666" y="110" width="6" height="130" rx="3" fill="#1d4ed8"/>
-    <text x="688" y="142" font-size="13" font-weight="700" fill="#1d4ed8">PASO 2 · 45 MIN</text>
+    <text x="688" y="142" font-size="13" font-weight="700" fill="#1d4ed8">PASO 2 · 60 MIN</text>
     <text x="688" y="172" font-size="19" font-weight="700" fill="#1c1917">Corrutinas y UI</text>
-    <text x="688" y="200" font-size="14" fill="#44403c">delay, cancelación y remember</text>
+    <text x="688" y="200" font-size="14" fill="#44403c">delay, cancelación y Compose</text>
     <text x="688" y="220" font-size="14" fill="#44403c">CoroutinesAndUi.kt</text>
     <rect x="30" y="262" width="296" height="130" rx="12" fill="#ffffff" stroke="#d6d3d1"/>
     <rect x="30" y="262" width="6" height="130" rx="3" fill="#1d4ed8"/>

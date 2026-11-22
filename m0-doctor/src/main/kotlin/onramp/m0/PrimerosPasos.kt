@@ -1,7 +1,7 @@
 package onramp.m0
 
 /**
- * Paso 0 (~25 min): tu primer programa en Kotlin.
+ * Paso 0: tu primer programa en Kotlin.
  *
  * Córrelo con `./gradlew :m0-doctor:run --no-parallel` y verifica con
  * `./gradlew paso0 --no-parallel`.

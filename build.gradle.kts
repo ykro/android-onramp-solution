@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.kotlin.compose) apply false
+    alias(libs.plugins.compose.multiplatform) apply false
 }
 
 tasks.register("doctor") {
@@ -23,7 +25,7 @@ tasks.register("paso1") {
 
 tasks.register("paso2") {
     group = "verification"
-    description = "Paso 2: corre las 3 pruebas de corrutinas, cancelación y estado en UI."
+    description = "Paso 2: corre las 4 pruebas de corrutinas, cancelación, estado en UI y Compose."
     dependsOn(":m2-corrutinas-y-ui:test")
 }
 

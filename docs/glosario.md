@@ -54,7 +54,11 @@ Herramientas para probar corrutinas y `Flow` de forma rápida y determinista:
 
 ## `remember` en Compose
 
-Función de [estado en Jetpack Compose](https://developer.android.com/develop/ui/compose/state#state-in-composables) que guarda un valor en memoria entre redibujos de una misma pantalla. Sin `remember`, cualquier variable local (`var count = 0`) vuelve a su valor inicial cada vez que Compose redibuja la función. En el Paso 2 practicas esta misma idea con `UiMemory.remember(...)`.
+Función de [estado en Jetpack Compose](https://developer.android.com/develop/ui/compose/state#state-in-composables) que guarda un valor en memoria entre redibujos de una misma pantalla. Sin `remember`, cualquier variable local (`var count = 0`) vuelve a su valor inicial cada vez que Compose redibuja la función. En el Paso 2 practicas esta idea primero con `UiMemory.remember(...)` y después en un composable real.
+
+## `@Composable`
+
+Anotación de [Jetpack Compose](https://developer.android.com/develop/ui/compose/mental-model) que marca una función que describe una parte de la pantalla. Compose la vuelve a ejecutar cada vez que cambia un estado que lee; a eso se le llama recomposición. Los composables se prueban con [`createComposeRule`](https://developer.android.com/develop/ui/compose/testing), que los dibuja sin emulador.
 
 ## `kotlinx.serialization`
 

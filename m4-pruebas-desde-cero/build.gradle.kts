@@ -35,6 +35,19 @@ tasks.test {
         }
     })
     doLast {
+        // Cada @Test debe llamar a computeReadingStreak y comprobar el resultado con un assert.
+        val archivo = file("src/test/kotlin/onramp/m4/ReadingStreakStudentTest.kt")
+        val debiles = archivo.readText().split("@Test").drop(1).mapNotNull { bloque ->
+            val nombre = Regex("fun\\s+(`[^`]+`|\\w+)").find(bloque)?.groupValues?.get(1) ?: return@mapNotNull null
+            val cuerpo = bloque.substringAfter(nombre)
+            if ("computeReadingStreak(" in cuerpo && Regex("\\bassert\\w*\\(").containsMatchIn(cuerpo)) null else nombre
+        }
+        if (debiles.isNotEmpty()) {
+            throw GradleException(
+                "CA-5.1 Cada test debe llamar a computeReadingStreak y comprobar el resultado con un assert. " +
+                    "Estos no lo hacen: ${debiles.joinToString(", ")}.",
+            )
+        }
         if (testsQuePasaron < 3) {
             throw GradleException(
                 "CA-5.1 Hay $testsQuePasaron tests que pasan; se esperan al menos 3 en ReadingStreakStudentTest.kt.",

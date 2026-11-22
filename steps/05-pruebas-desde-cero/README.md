@@ -29,7 +29,7 @@ En los pasos anteriores corriste tests que escribió el curso. En [android-cours
 
 ## Criterios de aceptación
 
-- `CA-5.1` `ReadingStreakStudentTest.kt` tiene al menos tres tests y todos pasan contra la función correcta.
+- `CA-5.1` `ReadingStreakStudentTest.kt` tiene al menos tres tests y todos pasan contra la función correcta. Cada test llama a `computeReadingStreak` y comprueba el resultado con un `assert`.
 - `CA-5.2` Al menos un test falla con una versión que no reinicia la racha cuando un día tiene 0 minutos.
 - `CA-5.3` Al menos un test falla con una versión que cuenta como lectura los días con minutos negativos.
 
