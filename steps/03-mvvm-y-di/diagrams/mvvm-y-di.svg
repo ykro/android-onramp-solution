@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 960 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="mv-title mv-desc">
+  <title id="mv-title">Paso 3 — Una pantalla con MVVM e inyección de dependencias</title>
+  <desc id="mv-desc">La vista ShelfContent recibe el estado y avisa eventos al ShelfViewModel. El ViewModel pide datos al repositorio, elige libros con el BookPicker y publica un StateFlow de solo lectura que vuelve a la vista. Koin construye el repositorio, el picker y el ViewModel.</desc>
+  <defs>
+    <marker id="a-blue" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#1D4ED8"/></marker>
+    <marker id="a-green" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#15803D"/></marker>
+    <marker id="a-gray" markerWidth="10" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#64748B"/></marker>
+  </defs>
+  <rect width="960" height="420" rx="12" fill="#F8F7F4"/>
+  <text x="32" y="40" fill="#0F2547" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="19" font-weight="700">Paso 3 — Una pantalla con MVVM e inyección de dependencias</text>
+  <text x="32" y="62" fill="#475569" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13">El estado baja hacia la vista y los eventos suben hacia el ViewModel. Koin arma las piezas.</text>
+
+  <!-- Vista -->
+  <rect x="32" y="96" width="250" height="196" rx="10" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="1.5"/>
+  <text x="48" y="122" fill="#1D4ED8" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="700">VISTA</text>
+  <text x="48" y="146" fill="#0F2547" font-family="ui-monospace, SFMono-Regular, monospace" font-size="13" font-weight="700">ShelfContent(state, onEvent)</text>
+  <text x="48" y="174" fill="#334155" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12.5">Dibuja el estado que recibe.</text>
+  <text x="48" y="194" fill="#334155" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12.5">No guarda copias ni decide.</text>
+  <rect x="48" y="214" width="218" height="60" rx="6" fill="#F8FAFC" stroke="#CBD5E1"/>
+  <text x="62" y="238" fill="#0F2547" font-family="ui-monospace, SFMono-Regular, monospace" font-size="12">Te toca: Rayuela</text>
+  <text x="62" y="260" fill="#0F2547" font-family="ui-monospace, SFMono-Regular, monospace" font-size="10.5">[Sugerir] [Marcar como leído]</text>
+
+  <!-- ViewModel -->
+  <rect x="372" y="96" width="250" height="196" rx="10" fill="#FFFFFF" stroke="#BBF7D0" stroke-width="1.5"/>
+  <text x="388" y="122" fill="#15803D" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="700">VIEWMODEL</text>
+  <text x="388" y="146" fill="#0F2547" font-family="ui-monospace, SFMono-Regular, monospace" font-size="13" font-weight="700">ShelfViewModel</text>
+  <text x="388" y="174" fill="#334155" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12.5">Recibe eventos y produce</text>
+  <text x="388" y="194" fill="#334155" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12.5">estados nuevos con copy.</text>
+  <text x="388" y="226" fill="#334155" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11">private val _uiState (escribible)</text>
+  <text x="388" y="248" fill="#15803D" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11">uiState: StateFlow (solo lectura)</text>
+  <text x="388" y="274" fill="#64748B" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11.5">Sobrevive cuando giras el teléfono</text>
+
+  <!-- Modelo -->
+  <rect x="712" y="96" width="216" height="90" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+  <text x="728" y="122" fill="#475569" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="700">MODELO</text>
+  <text x="728" y="146" fill="#0F2547" font-family="ui-monospace, SFMono-Regular, monospace" font-size="12.5" font-weight="700">ReadingListRepository</text>
+  <text x="728" y="168" fill="#64748B" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="10.5">Hoy memoria; luego Room o Firestore</text>
+  <rect x="712" y="202" width="216" height="90" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+  <text x="728" y="228" fill="#475569" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="700">DEPENDENCIA</text>
+  <text x="728" y="252" fill="#0F2547" font-family="ui-monospace, SFMono-Regular, monospace" font-size="12.5" font-weight="700">BookPicker</text>
+  <text x="728" y="274" fill="#64748B" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11.5">Al azar en la app, fijo en los tests</text>
+
+  <!-- Flechas vista y viewmodel -->
+  <line x1="286" y1="150" x2="366" y2="150" stroke="#1D4ED8" stroke-width="2" marker-end="url(#a-blue)"/>
+  <text x="326" y="140" fill="#1D4ED8" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11.5" text-anchor="middle">eventos</text>
+  <line x1="368" y1="236" x2="288" y2="236" stroke="#15803D" stroke-width="2" marker-end="url(#a-green)"/>
+  <text x="328" y="226" fill="#15803D" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11.5" text-anchor="middle">estado</text>
+  <line x1="626" y1="140" x2="706" y2="140" stroke="#64748B" stroke-width="1.5" marker-end="url(#a-gray)"/>
+  <line x1="626" y1="246" x2="706" y2="246" stroke="#64748B" stroke-width="1.5" marker-end="url(#a-gray)"/>
+
+  <!-- Koin -->
+  <rect x="32" y="318" width="896" height="78" rx="10" fill="#FFFBEB" stroke="#FCD34D" stroke-width="1.5"/>
+  <text x="48" y="344" fill="#92400E" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="12" font-weight="700">KOIN · shelfModule</text>
+  <text x="48" y="370" fill="#78350F" font-family="ui-monospace, SFMono-Regular, monospace" font-size="12">single&lt;ReadingListRepository&gt; { ... }   single&lt;BookPicker&gt; { ... }   viewModelOf(::ShelfViewModel)</text>
+  <text x="48" y="388" fill="#92400E" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="11.5">Cada clase pide lo que necesita en su constructor; Koin se lo entrega.</text>
+</svg>

@@ -2,7 +2,7 @@
 
 ![Paso 1. Lambdas con receptor, `sealed interface` y `StateFlow`](diagrams/stateflow.svg)
 
-Este paso toma unos 50 minutos.
+Este paso toma unos 35 minutos.
 
 ## Antes de empezar
 
@@ -31,29 +31,26 @@ En Jetpack Compose y Koin verás bloques como `Column { Text("Hola") }` y `modul
   }
   ```
 
-- **Koin.** Es la librería de inyección de dependencias del curso. En lugar de que cada clase cree lo que necesita, declaras en un `module { single { ... } }` cómo se construye cada pieza y Koin la entrega. Tu `miniModule` imita esa sintaxis.
 - **`sealed interface`.** Un tipo con una lista cerrada de subtipos, todos declarados en el mismo archivo. Por eso el compilador sabe cuándo un `when` cubre todos los casos.
 - **`StateFlow`.** Un valor observable. La pantalla lo escucha y se redibuja cada vez que recibe un estado distinto del anterior.
 
 ## Qué vas a hacer
 
-- **Leer.** Abre [DslBuilders.kt](../../m1-kotlin-dsl-estado/src/main/kotlin/onramp/m1/DslBuilders.kt) y [Module1Test.kt](../../m1-kotlin-dsl-estado/src/test/kotlin/onramp/m1/Module1Test.kt). Fíjate cómo el test llama a `miniColumn { text("...") }` y busca de dónde sale `text` si no hay ningún objeto antes del punto.
-- **Debuguear.** Corre `./gradlew paso1 --no-parallel`. El ejercicio 4 falla aunque `addOrder` sí agrega el pedido. Antes de cambiar algo, explica con el comentario de [OrderState.kt](../../m1-kotlin-dsl-estado/src/main/kotlin/onramp/m1/OrderState.kt) por qué `StateFlow` no emite.
-- **Escribir.** Resuelve los cuatro ejercicios, guiándote por los `TODO` y los comentarios de cada función.
+- **Leer.** Abre [DslBuilders.kt](../../paso1-kotlin-y-stateflow/src/main/kotlin/onramp/paso1/DslBuilders.kt) y [Paso1Test.kt](../../paso1-kotlin-y-stateflow/src/test/kotlin/onramp/paso1/Paso1Test.kt). Fíjate cómo el test llama a `miniColumn { text("...") }` y busca de dónde sale `text` si no hay ningún objeto antes del punto.
+- **Debuguear.** Corre `./gradlew paso1 --no-parallel`. El ejercicio 3 falla aunque `addOrder` sí agrega el pedido. Antes de cambiar algo, explica con el comentario de [OrderState.kt](../../paso1-kotlin-y-stateflow/src/main/kotlin/onramp/paso1/OrderState.kt) por qué `StateFlow` no emite.
+- **Escribir.** Resuelve los tres ejercicios, guiándote por los `TODO` y los comentarios de cada función.
 
 ## Criterios de aceptación
 
 - `CA-1.1` `miniColumn` devuelve los textos en el orden en que el bloque los agregó.
-- `CA-1.2` `miniModule` registra fábricas con `single` y `container.get(...)` devuelve siempre la misma instancia.
-- `CA-1.3` `renderOrderBanner` devuelve el texto de los cuatro estados, con singular y plural en `Preparing`, sin rama `else`.
-- `CA-1.4` `OrderBoard` emite un estado nuevo en su `StateFlow` cada vez que agregas o quitas un pedido.
+- `CA-1.2` `renderOrderBanner` devuelve el texto de los cuatro estados, con singular y plural en `Preparing`, sin rama `else`.
+- `CA-1.3` `OrderBoard` emite un estado nuevo en su `StateFlow` cada vez que agregas o quitas un pedido.
 
 ## Al terminar
 
 1. Agrega temporalmente un quinto estado `Cancelled` a `OrderBannerState` y compila. ¿Qué te dice el compilador? ¿Qué habría pasado si `renderOrderBanner` tuviera una rama `else`?
 2. Si `OrderBoard` emitiera `current.copy()` sin cambiar nada, ¿la pantalla recibiría un estado nuevo? ¿Por qué?
-3. En `miniModule`, ¿qué cambiaría en `CA-1.2` si `MiniContainer.get` llamara a la fábrica cada vez en lugar de guardar la instancia?
-4. Explica en tres líneas, con tus palabras, qué cambiaste y por qué. Si no puedes, vuelve a la pista 1 antes de seguir.
+3. Explica en tres líneas, con tus palabras, qué cambiaste y por qué. Si no puedes, vuelve a la pista 1 antes de seguir.
 
 ## Cómo verificar
 
@@ -67,5 +64,4 @@ Si te trabas, abre la [pista 1](hints/1.md). Cada pista da un poco más que la a
 
 1. El compilador marca el `when` como no exhaustivo y no compila hasta que agregues la rama. Con un `else`, compilaría y el estado nuevo caería en esa rama sin que nadie lo note.
 2. No. `copy()` sin cambios crea un objeto nuevo, pero `StateFlow` compara con `==` y una `data class` con los mismos valores es igual a la anterior, así que no emite. Eso evita redibujos inútiles.
-3. `CA-1.2` fallaría, porque cada `get` devolvería una instancia nueva. El test comprueba que dos `get` seguidos devuelven el mismo objeto, igual que un `single` de Koin.
-4. Respuesta personal. Debe mencionar que una lambda con receptor se ejecuta sobre un objeto, que `when` sobre una `sealed interface` obliga a cubrir todos los casos y que `StateFlow` necesita un estado nuevo para avisar.
+3. Respuesta personal. Debe mencionar que una lambda con receptor se ejecuta sobre un objeto, que `when` sobre una `sealed interface` obliga a cubrir todos los casos y que `StateFlow` necesita un estado nuevo para avisar.

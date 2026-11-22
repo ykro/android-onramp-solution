@@ -1,6 +1,6 @@
 # Glosario de Android On-Ramp
 
-Este glosario reúne los términos técnicos que aparecen en los seis pasos y las guías de lectura de Android On-Ramp. Cada definición explica cómo se usa en el día a día y enlaza a su documentación oficial.
+Este glosario reúne los términos técnicos que aparecen en los siete pasos y las guías de lectura de Android On-Ramp. Cada definición explica cómo se usa en el día a día y enlaza a su documentación oficial.
 
 ## JDK 21
 
@@ -8,7 +8,7 @@ Kit de desarrollo de Java versión 21 (por ejemplo, [Eclipse Temurin 21](https:/
 
 ## Gradle y `./gradlew`
 
-Herramienta que compila y prueba proyectos de Kotlin y Android ([Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html)). `./gradlew` descarga la versión exacta que pide el proyecto, así todos usan la misma. Cada carpeta `m*` es un módulo y cada `pasoN` es una tarea que corre sus tests.
+Herramienta que compila y prueba proyectos de Kotlin y Android ([Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html)). `./gradlew` descarga la versión exacta que pide el proyecto, así todos usan la misma. Cada carpeta `pasoN-…` es un módulo y cada tarea `pasoN` corre sus tests.
 
 ## `ANDROID_HOME`
 
@@ -54,7 +54,7 @@ Herramientas para probar corrutinas y `Flow` de forma rápida y determinista:
 
 ## `remember` en Compose
 
-Función de [estado en Jetpack Compose](https://developer.android.com/develop/ui/compose/state#state-in-composables) que guarda un valor en memoria entre redibujos de una misma pantalla. Sin `remember`, cualquier variable local (`var count = 0`) vuelve a su valor inicial cada vez que Compose redibuja la función. En el Paso 2 practicas esta idea primero con `UiMemory.remember(...)` y después en un composable real.
+Función de [estado en Jetpack Compose](https://developer.android.com/develop/ui/compose/state#state-in-composables) que guarda un valor en memoria entre redibujos de una misma pantalla. Sin `remember`, cualquier variable local (`var count = 0`) vuelve a su valor inicial cada vez que Compose redibuja la función. En el Paso 2 la practicas en un composable real.
 
 ## `@Composable`
 
@@ -74,11 +74,11 @@ Cláusula estándar de actualización condicional en SQLite, documentada en [SQL
 
 ## Room
 
-Librería oficial de persistencia sobre SQLite en Android, documentada en [Save data in a local database using Room](https://developer.android.com/training/data-storage/room). Traduce las mismas ideas del Paso 4 a anotaciones de Kotlin: `@Entity` describe el `CREATE TABLE`, `@PrimaryKey` define la llave primaria y `@Dao` con `@Query` ejecuta tus consultas `SELECT` y actualizaciones parciales.
+Librería oficial de persistencia sobre SQLite en Android, documentada en [Save data in a local database using Room](https://developer.android.com/training/data-storage/room). Traduce las mismas ideas del Paso 5 a anotaciones de Kotlin: `@Entity` describe el `CREATE TABLE`, `@PrimaryKey` define la llave primaria y `@Dao` con `@Query` ejecuta tus consultas `SELECT` y actualizaciones parciales.
 
 ## JUnit 4 y patrón Arrange-Act-Assert
 
-[JUnit 4](https://junit.org/junit4/) ejecuta funciones anotadas con `@Test` y reporta si cada aserción (`assertEquals`, `assertThrows`) pasa en verde o falla en rojo. El patrón **Arrange -> Act -> Assert** separa cada prueba en tres bloques claros: preparar datos de entrada, ejecutar la función que quieres probar y comprobar el resultado esperado. Lo practicas desde cero en el Paso 5.
+[JUnit 4](https://junit.org/junit4/) ejecuta funciones anotadas con `@Test` y reporta si cada aserción (`assertEquals`, `assertThrows`) pasa en verde o falla en rojo. El patrón **Arrange -> Act -> Assert** separa cada prueba en tres bloques claros: preparar datos de entrada, ejecutar la función que quieres probar y comprobar el resultado esperado. Lo practicas desde cero en el Paso 6.
 
 ## ADR (Architecture Decision Record)
 
@@ -94,7 +94,7 @@ Práctica de ejecutar automáticamente las pruebas y verificaciones de estilo en
 
 ## Versión con un bug
 
-En el Paso 5, una copia de `computeReadingStreak` con un error a propósito, guardada en `m4-pruebas-desde-cero/src/conBug*/`. `./gradlew paso5` corre tus tests contra cada versión con un bug; si todos siguen en verde, tus tests no distinguen la función correcta de una rota.
+En el Paso 6, una copia de `computeReadingStreak` con un error a propósito, guardada en `paso6-pruebas-desde-cero/src/versionA/` y `src/versionB/`. `./gradlew paso6` corre tus tests contra las dos; si todos siguen en verde, tus tests no distinguen la función correcta de una rota.
 
 ## Corrutina
 
@@ -114,4 +114,24 @@ El objeto que devuelve `launch` y representa una corrutina en marcha ([Kotlin: J
 
 ## Koin
 
-La librería de inyección de dependencias que usa el curso ([insert-koin.io](https://insert-koin.io/docs/quickstart/android/)). Declaras en un `module { single { ... } }` cómo se construye cada pieza y Koin la entrega a quien la pida. El Paso 1 imita esa sintaxis con `miniModule`.
+La librería de inyección de dependencias que usa el curso ([insert-koin.io](https://insert-koin.io/docs/quickstart/android/)). Declaras en un `module { single { ... } }` cómo se construye cada pieza y Koin la entrega a quien la pida. En el Paso 3 escribes un módulo con `single` y `viewModelOf`.
+
+## UI declarativa
+
+Forma de construir pantallas en la que describes cómo se ve la interfaz para un estado dado, en lugar de modificar cada componente a mano ([Thinking in Compose](https://developer.android.com/develop/ui/compose/mental-model)). En Compose nunca llamas `setText`; cuando el estado cambia, Compose vuelve a llamar tu función y dibuja lo que hace falta. El Paso 3 la practica con `ShelfContent`.
+
+## State hoisting (estado hacia abajo, eventos hacia arriba)
+
+Patrón de Compose en el que un composable no guarda su propio estado: lo recibe como parámetro y avisa lo que pasa con una función como `onEvent` ([State hoisting](https://developer.android.com/develop/ui/compose/state-hoisting)). Así el estado tiene un solo dueño y el composable se prueba pasándole cualquier estado.
+
+## MVVM y `ViewModel`
+
+*Model, View, ViewModel*, la arquitectura que usan las pantallas del curso ([Guide to app architecture](https://developer.android.com/topic/architecture)). El modelo son los datos y sus repositorios, la vista son los composables y el [`ViewModel`](https://developer.android.com/topic/libraries/architecture/viewmodel) guarda el estado de la pantalla en un `StateFlow`, recibe los eventos y produce estados nuevos. Android conserva el `ViewModel` cuando giras el teléfono.
+
+## Repositorio
+
+Una interfaz que esconde de dónde vienen los datos (memoria, Room, red o Firestore) para que el `ViewModel` no dependa de eso ([Data layer](https://developer.android.com/topic/architecture/data-layer)). En el Paso 3 es `ReadingListRepository`.
+
+## Inyección de dependencias
+
+Una clase recibe en su constructor los objetos que necesita en lugar de crearlos adentro ([Dependency injection in Android](https://developer.android.com/training/dependency-injection)). Permite pasar versiones controladas en los tests, como un `BookPicker` que siempre elige el mismo libro, y cambiar una implementación sin tocar la clase que la usa. Koin automatiza el armado.

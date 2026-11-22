@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg viewBox="0 0 980 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t d">
-  <title id="t">Android On-Ramp · 6 pasos</title>
-  <desc id="d">JDK 21 · Kotlin · Gradle · corrutinas · OkHttp · SQLite · JUnit · primera vez: del 0 al 5 en orden. Paso 0: Entorno y Kotlin; Paso 1: Kotlin y StateFlow; Paso 2: Corrutinas y UI; Paso 3: HTTP y JSON; Paso 4: SQL y upsert; Paso 5: Tests desde cero</desc>
-  <rect width="980" height="470" fill="#fafaf7"/>
+<svg viewBox="0 0 980 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="t d">
+  <title id="t">Android On-Ramp · 7 pasos</title>
+  <desc id="d">JDK 21 · Kotlin · Gradle · Compose · ViewModel · Koin · OkHttp · SQLite · JUnit · primera vez: del 0 al 6 en orden. Paso 0: Entorno y Kotlin; Paso 1: Kotlin y StateFlow; Paso 2: Corrutinas y UI; Paso 3: MVVM e inyección; Paso 4: HTTP y JSON; Paso 5: SQL y upsert; Paso 6: Tests desde cero</desc>
+  <rect width="980" height="620" fill="#fafaf7"/>
   <g font-family="Inter, Helvetica, Arial, sans-serif">
-    <text x="30" y="52" font-size="26" font-weight="700" fill="#1c1917">Android On-Ramp · 6 pasos</text>
-    <text x="30" y="82" font-size="15" fill="#57534e">JDK 21 · Kotlin · Gradle · corrutinas · OkHttp · SQLite · JUnit · primera vez: del 0 al 5 en orden</text>
+    <text x="30" y="52" font-size="26" font-weight="700" fill="#1c1917">Android On-Ramp · 7 pasos</text>
+    <text x="30" y="82" font-size="15" fill="#57534e">Kotlin · Compose · ViewModel · Koin · OkHttp · SQLite · JUnit · primera vez: del 0 al 6 en orden</text>
     <rect x="30" y="110" width="296" height="130" rx="12" fill="#ffffff" stroke="#d6d3d1"/>
     <rect x="30" y="110" width="6" height="130" rx="3" fill="#b45309"/>
     <text x="52" y="142" font-size="13" font-weight="700" fill="#b45309">PASO 0 · 40 MIN</text>
@@ -14,34 +14,40 @@
     <text x="52" y="220" font-size="14" fill="#44403c">PrimerosPasos.kt</text>
     <rect x="348" y="110" width="296" height="130" rx="12" fill="#ffffff" stroke="#d6d3d1"/>
     <rect x="348" y="110" width="6" height="130" rx="3" fill="#1d4ed8"/>
-    <text x="370" y="142" font-size="13" font-weight="700" fill="#1d4ed8">PASO 1 · 50 MIN</text>
+    <text x="370" y="142" font-size="13" font-weight="700" fill="#1d4ed8">PASO 1 · 35 MIN</text>
     <text x="370" y="172" font-size="19" font-weight="700" fill="#1c1917">Kotlin y StateFlow</text>
     <text x="370" y="200" font-size="14" fill="#44403c">lambdas con receptor y estado</text>
     <text x="370" y="220" font-size="14" fill="#44403c">DslBuilders.kt, OrderState.kt</text>
     <rect x="666" y="110" width="296" height="130" rx="12" fill="#ffffff" stroke="#d6d3d1"/>
     <rect x="666" y="110" width="6" height="130" rx="3" fill="#1d4ed8"/>
-    <text x="688" y="142" font-size="13" font-weight="700" fill="#1d4ed8">PASO 2 · 60 MIN</text>
+    <text x="688" y="142" font-size="13" font-weight="700" fill="#1d4ed8">PASO 2 · 45 MIN</text>
     <text x="688" y="172" font-size="19" font-weight="700" fill="#1c1917">Corrutinas y UI</text>
     <text x="688" y="200" font-size="14" fill="#44403c">delay, cancelación y Compose</text>
     <text x="688" y="220" font-size="14" fill="#44403c">CoroutinesAndUi.kt</text>
     <rect x="30" y="262" width="296" height="130" rx="12" fill="#ffffff" stroke="#d6d3d1"/>
-    <rect x="30" y="262" width="6" height="130" rx="3" fill="#1d4ed8"/>
-    <text x="52" y="294" font-size="13" font-weight="700" fill="#1d4ed8">PASO 3 · 40 MIN</text>
-    <text x="52" y="324" font-size="19" font-weight="700" fill="#1c1917">HTTP y JSON</text>
-    <text x="52" y="352" font-size="14" fill="#44403c">OkHttp, JSON tolerante y errores</text>
-    <text x="52" y="372" font-size="14" fill="#44403c">BookApiClient.kt</text>
+    <rect x="30" y="262" width="6" height="130" rx="3" fill="#15803d"/>
+    <text x="52" y="294" font-size="13" font-weight="700" fill="#15803d">PASO 3 · 75 MIN</text>
+    <text x="52" y="324" font-size="19" font-weight="700" fill="#1c1917">MVVM e inyección</text>
+    <text x="52" y="352" font-size="14" fill="#44403c">UI declarativa, ViewModel y Koin</text>
+    <text x="52" y="372" font-size="14" fill="#44403c">ShelfViewModel.kt</text>
     <rect x="348" y="262" width="296" height="130" rx="12" fill="#ffffff" stroke="#d6d3d1"/>
     <rect x="348" y="262" width="6" height="130" rx="3" fill="#1d4ed8"/>
-    <text x="370" y="294" font-size="13" font-weight="700" fill="#1d4ed8">PASO 4 · 45 MIN</text>
-    <text x="370" y="324" font-size="19" font-weight="700" fill="#1c1917">SQL y upsert</text>
-    <text x="370" y="352" font-size="14" fill="#44403c">tablas, SELECT y ON CONFLICT</text>
-    <text x="370" y="372" font-size="14" fill="#44403c">BookDatabase.kt</text>
+    <text x="370" y="294" font-size="13" font-weight="700" fill="#1d4ed8">PASO 4 · 40 MIN</text>
+    <text x="370" y="324" font-size="19" font-weight="700" fill="#1c1917">HTTP y JSON</text>
+    <text x="370" y="352" font-size="14" fill="#44403c">OkHttp, JSON tolerante y errores</text>
+    <text x="370" y="372" font-size="14" fill="#44403c">BookApiClient.kt</text>
     <rect x="666" y="262" width="296" height="130" rx="12" fill="#ffffff" stroke="#d6d3d1"/>
     <rect x="666" y="262" width="6" height="130" rx="3" fill="#1d4ed8"/>
-    <text x="688" y="294" font-size="13" font-weight="700" fill="#1d4ed8">PASO 5 · 30 MIN</text>
-    <text x="688" y="324" font-size="19" font-weight="700" fill="#1c1917">Tests desde cero</text>
-    <text x="688" y="352" font-size="14" fill="#44403c">rojo ante dos versiones con un bug</text>
-    <text x="688" y="372" font-size="14" fill="#44403c">ReadingStreakStudentTest.kt</text>
-    <text x="30" y="444" font-size="15" fill="#44403c">Revisar el entorno: ./gradlew doctor   ·   Verificar: ./gradlew pasoN --no-parallel   ·   Todo: ./gradlew ready</text>
+    <text x="688" y="294" font-size="13" font-weight="700" fill="#1d4ed8">PASO 5 · 45 MIN</text>
+    <text x="688" y="324" font-size="19" font-weight="700" fill="#1c1917">SQL y upsert</text>
+    <text x="688" y="352" font-size="14" fill="#44403c">tablas, SELECT y ON CONFLICT</text>
+    <text x="688" y="372" font-size="14" fill="#44403c">BookDatabase.kt</text>
+    <rect x="30" y="414" width="296" height="130" rx="12" fill="#ffffff" stroke="#d6d3d1"/>
+    <rect x="30" y="414" width="6" height="130" rx="3" fill="#1d4ed8"/>
+    <text x="52" y="446" font-size="13" font-weight="700" fill="#1d4ed8">PASO 6 · 30 MIN</text>
+    <text x="52" y="476" font-size="19" font-weight="700" fill="#1c1917">Tests desde cero</text>
+    <text x="52" y="504" font-size="14" fill="#44403c">rojo ante dos versiones con un bug</text>
+    <text x="52" y="524" font-size="14" fill="#44403c">ReadingStreakStudentTest.kt</text>
+    <text x="30" y="590" font-size="15" fill="#44403c">Revisar el entorno: ./gradlew doctor   ·   Verificar: ./gradlew pasoN --no-parallel   ·   Todo: ./gradlew ready</text>
   </g>
 </svg>

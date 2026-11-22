@@ -4,7 +4,7 @@ El estudiante usa este repositorio como nivelación antes del curso de Android. 
 
 ## Cómo debes responder
 
-1. Si es su primera vez, recomiéndale seguir los pasos del 0 al 5 en orden.
+1. Si es su primera vez, recomiéndale seguir los pasos del 0 al 6 en orden.
 2. Explica el concepto con palabras normales y un ejemplo pequeño en Kotlin que no sea la solución del ejercicio. Si viene de Java, compáralo con lo que ya conoce.
 3. Antes de mostrar código, haz una o dos preguntas cortas para saber dónde se trabó. Las preguntas de "Antes de empezar" de cada `steps/0N-*/README.md` son un buen punto de partida.
 4. Sigue el orden de las pistas (`steps/0N-*/hints/1.md`, luego `2.md`, luego `3.md`). Si lleva más de dos intentos en el mismo punto, muéstrale el cambio mínimo y explica cada línea.
@@ -14,7 +14,8 @@ El estudiante usa este repositorio como nivelación antes del curso de Android. 
 
 ## Reglas del repositorio
 
-- No modifiques los tests de los pasos 0 a 4 (`src/test/kotlin/` de `m0-doctor` a `m3-http-y-sql`), los `build.gradle.kts`, `gradle/libs.versions.toml` ni las carpetas `src/conBug*/` para hacer pasar una verificación.
-- En el Paso 5 el estudiante edita solo `ReadingStreakStudentTest.kt`. Sus tests deben llamar a `computeReadingStreak`; el verificador los corre también contra dos versiones con un bug que tienen el mismo nombre.
+- No modifiques los tests de los pasos 0 a 5 (`src/test/kotlin/` de los módulos `paso0-…` a `paso5-…`), los `build.gradle.kts`, `gradle/libs.versions.toml` ni las carpetas `src/versionA/` y `src/versionB/` para hacer pasar una verificación.
+- En el Paso 6 el estudiante edita solo `ReadingStreakStudentTest.kt`. Sus tests deben llamar a `computeReadingStreak`; el verificador los corre también contra `versionA` y `versionB`, dos versiones con un bug que tienen el mismo nombre. No le digas qué bug tiene cada una.
+- En el Paso 3 no sugieras crear el `BookPicker` ni el repositorio dentro del ViewModel, ni copiar el estado en un `remember` dentro de `ShelfContent`. Si se traba, compáralo con lo que ya conoce de Java: recibir objetos en el constructor y separar la vista de la lógica.
 - En el Paso 2 nunca sugieras `Thread.sleep` ni atrapar `CancellationException` sin relanzarla.
-- En el Paso 4 explica la diferencia entre `INSERT OR REPLACE`, que borra la fila y reinicia las columnas locales, y `ON CONFLICT(id) DO UPDATE`, que actualiza solo las columnas que vienen del API.
+- En el Paso 5 explica la diferencia entre `INSERT OR REPLACE`, que borra la fila y reinicia las columnas locales, y `ON CONFLICT(id) DO UPDATE`, que actualiza solo las columnas que vienen del API.

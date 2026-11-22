@@ -41,6 +41,6 @@ service cloud.firestore {
 
 - **Siempre cierra el listener:** sin `awaitClose { registration.remove() }`, la app sigue escuchando cambios de red aunque la pantalla ya no exista.
 - **La seguridad vive en `firestore.rules`, no en la UI:** ocultar un botón en Compose mejora la experiencia, pero solo `request.auth.uid == uid` protege los datos en el servidor.
-- **No necesitas cuenta de Firebase en este on-ramp:** esta guía es solo lectura preparatoria; los 6 pasos del repositorio corren 100 % en local sin internet.
+- **No necesitas cuenta de Firebase en este on-ramp:** esta guía es solo lectura preparatoria; los 7 pasos del repositorio corren 100 % en local sin internet.
 
 Consulta también el [glosario](glosario.md) o vuelve al [README principal](../README.md).
