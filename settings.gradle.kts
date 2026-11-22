@@ -18,4 +18,5 @@ include(
     ":m1-kotlin-dsl-estado",
     ":m2-corrutinas-y-ui",
     ":m3-http-y-sql",
+    ":m4-pruebas-desde-cero",
 )

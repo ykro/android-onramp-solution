@@ -5,7 +5,7 @@
 
   <rect width="960" height="400" rx="12" fill="#F8F7F4"/>
 
-  <text x="32" y="40" fill="#0F2547" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="19" font-weight="700">Paso 5 — SQLite: sincronizar sin borrar favoritos ni notas locales</text>
+  <text x="32" y="40" fill="#0F2547" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="19" font-weight="700">Paso 4 — SQLite: sincronizar sin borrar favoritos ni notas locales</text>
   <text x="32" y="62" fill="#475569" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13">Misma base de esquema, consultas y actualización parcial que usarás en Room 3</text>
 
   <!-- Fila superior: Estado actual en SQLite -->

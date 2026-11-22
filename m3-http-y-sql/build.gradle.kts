@@ -18,9 +18,9 @@ tasks.test {
     }
 }
 
-tasks.register<Test>("testPaso4") {
+tasks.register<Test>("testPaso3") {
     group = "verification"
-    description = "Ejecuta las pruebas del Paso 4 (HTTP y JSON tolerante con MockWebServer)."
+    description = "Ejecuta las pruebas del Paso 3 (HTTP y JSON tolerante con MockWebServer)."
     testClassesDirs = sourceSets["test"].output.classesDirs
     classpath = sourceSets["test"].runtimeClasspath
     filter {
@@ -32,9 +32,9 @@ tasks.register<Test>("testPaso4") {
     }
 }
 
-tasks.register<Test>("testPaso5") {
+tasks.register<Test>("testPaso4") {
     group = "verification"
-    description = "Ejecuta las pruebas del Paso 5 (SQLite y ON CONFLICT DO UPDATE)."
+    description = "Ejecuta las pruebas del Paso 4 (SQLite y ON CONFLICT DO UPDATE)."
     testClassesDirs = sourceSets["test"].output.classesDirs
     classpath = sourceSets["test"].runtimeClasspath
     filter {

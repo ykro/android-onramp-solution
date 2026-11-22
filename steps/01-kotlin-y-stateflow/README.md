@@ -1,4 +1,4 @@
-# Paso 2. Kotlin, bloques DSL y `StateFlow`
+# Paso 1. Kotlin, bloques DSL y `StateFlow`
 
 ![StateFlow con MutableList frente a copy](diagrams/stateflow.svg)
 
@@ -19,17 +19,17 @@ Al mismo tiempo, casi todas las pantallas modernas en Android leen su estado des
 
 ## Criterios de aceptación
 
-- `CA-2.1` [auto] `miniColumn` recolecta los textos en orden mediante un bloque con receptor `ColumnScope`.
-- `CA-2.2` [auto] `miniModule` registra fábricas `single` y devuelve siempre la misma instancia en llamadas sucesivas a `container.get(...)`.
-- `CA-2.3` [auto] `renderOrderBanner` cubre las cuatro subclases de la `sealed interface` `OrderBannerState` (distinguiendo singular y plural en `Preparing`) sin rama `else`.
-- `CA-2.4` [auto] `OrderBoard` emite un estado nuevo en `StateFlow` cada vez que agregas o quitas un pedido, verificado con Turbine en [Module1Test.kt](../../m1-kotlin-dsl-estado/src/test/kotlin/onramp/m1/Module1Test.kt).
+- `CA-1.1` [auto] `miniColumn` recolecta los textos en orden mediante un bloque con receptor `ColumnScope`.
+- `CA-1.2` [auto] `miniModule` registra fábricas `single` y devuelve siempre la misma instancia en llamadas sucesivas a `container.get(...)`.
+- `CA-1.3` [auto] `renderOrderBanner` cubre las cuatro subclases de la `sealed interface` `OrderBannerState` (distinguiendo singular y plural en `Preparing`) sin rama `else`.
+- `CA-1.4` [auto] `OrderBoard` emite un estado nuevo en `StateFlow` cada vez que agregas o quitas un pedido, verificado con Turbine en [Module1Test.kt](../../m1-kotlin-dsl-estado/src/test/kotlin/onramp/m1/Module1Test.kt).
 
 ## Cómo verificar
 
 Este paso es completamente independiente. Desde la raíz del repositorio ejecuta sus 4 pruebas:
 
 ```bash
-./gradlew paso2 --no-parallel
+./gradlew paso1 --no-parallel
 ```
 
-Cuando las 4 pruebas terminen en verde, avanza al [Paso 3: Corrutinas y estado en UI](../03-corrutinas-y-ui/README.md).
+Cuando las 4 pruebas terminen en verde, avanza al [Paso 2: Corrutinas y estado en UI](../02-corrutinas-y-ui/README.md).

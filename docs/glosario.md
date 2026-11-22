@@ -1,10 +1,10 @@
 # Glosario de Android On-Ramp
 
-Este glosario reúne los términos técnicos que aparecen a lo largo de los cinco pasos de Android On-Ramp. Cada definición explica cómo se usa en el día a día y enlaza a su documentación oficial.
+Este glosario reúne los términos técnicos que aparecen en el inicio rápido, los cinco pasos prácticos y las guías de lectura de Android On-Ramp. Cada definición explica cómo se usa en el día a día y enlaza a su documentación oficial.
 
 ## JDK 21
 
-Kit de desarrollo de Java versión 21 (por ejemplo, [Eclipse Temurin 21](https://adoptium.net/temurin/releases/?version=21)). Gradle y las herramientas modernas de Android y Kotlin corren sobre esta versión de Java, por eso el Paso 1 comprueba que esté instalada antes de empezar.
+Kit de desarrollo de Java versión 21 (por ejemplo, [Eclipse Temurin 21](https://adoptium.net/temurin/releases/?version=21)). Gradle y las herramientas modernas de Android y Kotlin corren sobre esta versión de Java, por eso `./gradlew doctor --no-parallel` comprueba que esté instalada antes de empezar.
 
 ## `ANDROID_HOME`
 
@@ -46,7 +46,7 @@ Herramientas para probar corrutinas y `Flow` de forma rápida y determinista:
 
 ## `remember` en Compose
 
-Función de [estado en Jetpack Compose](https://developer.android.com/develop/ui/compose/state#state-in-composables) que guarda un valor en memoria entre redibujos de una misma pantalla. Sin `remember`, cualquier variable local (`var count = 0`) vuelve a su valor inicial cada vez que Compose redibuja la función. En el Paso 3 practicas esta misma idea con `UiMemory.remember(...)`.
+Función de [estado en Jetpack Compose](https://developer.android.com/develop/ui/compose/state#state-in-composables) que guarda un valor en memoria entre redibujos de una misma pantalla. Sin `remember`, cualquier variable local (`var count = 0`) vuelve a su valor inicial cada vez que Compose redibuja la función. En el Paso 2 practicas esta misma idea con `UiMemory.remember(...)`.
 
 ## `kotlinx.serialization`
 
@@ -62,4 +62,16 @@ Cláusula estándar de actualización condicional en SQLite, documentada en [SQL
 
 ## Room
 
-Librería oficial de persistencia sobre SQLite en Android, documentada en [Save data in a local database using Room](https://developer.android.com/training/data-storage/room). Traduce las mismas ideas del Paso 5 a anotaciones de Kotlin: `@Entity` describe el `CREATE TABLE`, `@PrimaryKey` define la llave primaria y `@Dao` con `@Query` ejecuta tus consultas `SELECT` y actualizaciones parciales.
+Librería oficial de persistencia sobre SQLite en Android, documentada en [Save data in a local database using Room](https://developer.android.com/training/data-storage/room). Traduce las mismas ideas del Paso 4 a anotaciones de Kotlin: `@Entity` describe el `CREATE TABLE`, `@PrimaryKey` define la llave primaria y `@Dao` con `@Query` ejecuta tus consultas `SELECT` y actualizaciones parciales.
+
+## JUnit 4 y patrón Arrange-Act-Assert
+
+[JUnit 4](https://junit.org/junit4/) ejecuta funciones anotadas con `@Test` y reporta si cada aserción (`assertEquals`, `assertThrows`) pasa en verde o falla en rojo. El patrón **Arrange -> Act -> Assert** separa cada prueba en tres bloques claros: preparar datos de entrada, ejecutar la función que quieres probar y comprobar el resultado esperado. Lo practicas desde cero en el Paso 5.
+
+## ADR (Architecture Decision Record)
+
+Documento corto que registra una decisión de diseño importante (estado, contexto, decisión, alternativas descartadas y consecuencias), descrito en [adr.github.io](https://adr.github.io/). En `android-course` lo verás dentro de `ARCHITECTURE_DECISIONS.md`; revisa nuestro ejemplo de 15 líneas en [docs/adr-ejemplo.md](adr-ejemplo.md).
+
+## Firebase (Auth, Firestore y `firestore.rules`)
+
+Plataforma gestionada de Google que usarás en la Unidad 3 de `android-course`: [Firebase Authentication](https://firebase.google.com/docs/auth) verifica la identidad del usuario (`uid`), [Cloud Firestore](https://firebase.google.com/docs/firestore/query-data/listen) envía actualizaciones en tiempo real que envolvemos en [`callbackFlow`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/callback-flow.html) y [`firestore.rules`](https://firebase.google.com/docs/firestore/security/get-started) valida los permisos en el servidor. Consulta la guía visual en [docs/firebase.md](firebase.md).

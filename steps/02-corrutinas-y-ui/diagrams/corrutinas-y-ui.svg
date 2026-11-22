@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg viewBox="0 0 960 410" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="cui-title cui-desc">
   <title id="cui-title">Corrutinas, cancelación y memoria entre redibujos</title>
-  <desc id="cui-desc">Tres pilares del Paso 3: reloj virtual en runTest con delay, propagación obligatoria de CancellationException, y conservación del estado con remember frente a una variable local que se reinicia.</desc>
+  <desc id="cui-desc">Tres pilares del Paso 2: reloj virtual en runTest con delay, propagación obligatoria de CancellationException, y conservación del estado con remember frente a una variable local que se reinicia.</desc>
 
   <rect width="960" height="410" rx="12" fill="#F8F7F4"/>
 
-  <text x="32" y="40" fill="#0F2547" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="19" font-weight="700">Paso 3 — Corrutinas, cancelación y memoria en pantallas reactivas</text>
+  <text x="32" y="40" fill="#0F2547" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="19" font-weight="700">Paso 2 — Corrutinas, cancelación y memoria en pantallas reactivas</text>
   <text x="32" y="62" fill="#475569" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13">Tres mecanismos esenciales para que tu app sea fluida, cancelable y no pierda estado</text>
 
   <!-- Columna 1: Reloj virtual -->

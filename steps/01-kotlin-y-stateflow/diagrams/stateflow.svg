@@ -13,7 +13,7 @@
 
   <rect width="960" height="400" rx="12" fill="#F8F7F4"/>
 
-  <text x="32" y="40" fill="#0F2547" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="19" font-weight="700">Paso 2 — Por qué StateFlow no emite cuando mutas una MutableList</text>
+  <text x="32" y="40" fill="#0F2547" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="19" font-weight="700">Paso 1 — Por qué StateFlow no emite cuando mutas una MutableList</text>
   <text x="32" y="62" fill="#475569" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13">StateFlow compara el estado anterior con el nuevo usando == antes de avisar a la pantalla</text>
 
   <!-- Panel Izquierdo: Error con MutableList -->

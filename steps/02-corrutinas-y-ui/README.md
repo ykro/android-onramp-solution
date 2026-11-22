@@ -1,4 +1,4 @@
-# Paso 3. Corrutinas, cancelación y estado en UI
+# Paso 2. Corrutinas, cancelación y estado en UI
 
 ![Corrutinas, cancelación y memoria en UI](diagrams/corrutinas-y-ui.svg)
 
@@ -18,16 +18,16 @@ En [CoroutinesAndUi.kt](../../m2-corrutinas-y-ui/src/main/kotlin/onramp/m2/Corou
 
 ## Criterios de aceptación
 
-- `CA-3.1` [auto] `countdownTicks(from = 3, stepMs = 10_000L)` emite `3, 2, 1, 0` y termina en menos de 2 segundos reales bajo `runTest` usando reloj virtual.
-- `CA-3.2` [auto] `runSafely` devuelve `"Error: sin internet"` ante un `IllegalStateException` y siempre relanza `CancellationException` cuando el `Job` se cancela.
-- `CA-3.3` [auto] `renderStudyCounter` conserva el contador entre redibujos sucesivos con la misma instancia de `UiMemory` y lo reinicia con `onReset()`, verificado en [Module2Test.kt](../../m2-corrutinas-y-ui/src/test/kotlin/onramp/m2/Module2Test.kt).
+- `CA-2.1` [auto] `countdownTicks(from = 3, stepMs = 10_000L)` emite `3, 2, 1, 0` y termina en menos de 2 segundos reales bajo `runTest` usando reloj virtual.
+- `CA-2.2` [auto] `runSafely` devuelve `"Error: sin internet"` ante un `IllegalStateException` y siempre relanza `CancellationException` cuando el `Job` se cancela.
+- `CA-2.3` [auto] `renderStudyCounter` conserva el contador entre redibujos sucesivos con la misma instancia de `UiMemory` y lo reinicia con `onReset()`, verificado en [Module2Test.kt](../../m2-corrutinas-y-ui/src/test/kotlin/onramp/m2/Module2Test.kt).
 
 ## Cómo verificar
 
 Este paso es completamente independiente. Desde la raíz del repositorio ejecuta sus 3 pruebas:
 
 ```bash
-./gradlew paso3 --no-parallel
+./gradlew paso2 --no-parallel
 ```
 
-Cuando las 3 pruebas terminen en verde, avanza al [Paso 4: HTTP y JSON tolerante](../04-http-json/README.md).
+Cuando las 3 pruebas terminen en verde, avanza al [Paso 3: HTTP y JSON tolerante](../03-http-json/README.md).

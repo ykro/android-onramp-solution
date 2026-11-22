@@ -1,4 +1,4 @@
-# Paso 5. SQLite, `ON CONFLICT DO UPDATE` y puente hacia Room 3
+# Paso 4. SQLite, `ON CONFLICT DO UPDATE` y puente hacia Room 3
 
 ![SQLite ON CONFLICT DO UPDATE frente a INSERT OR REPLACE](diagrams/sql-upsert.svg)
 
@@ -31,16 +31,15 @@ ON CONFLICT(id) DO UPDATE SET
 
 ## Criterios de aceptación
 
-- `CA-5.1` [auto] `BookDatabase.createSchema()` y `findFavoritesOrderedByTitle()` crean la tabla, filtran `favorite = 1` y ordenan alfabéticamente por `title`.
-- `CA-5.2` [auto] `BookDatabase.syncFromApi()` actualiza `title` y `author` sin borrar `favorite` ni `local_note`, verificado en [BookDatabaseTest.kt](../../m3-http-y-sql/src/test/kotlin/onramp/m3/BookDatabaseTest.kt).
+- `CA-4.1` [auto] `BookDatabase.createSchema()` y `findFavoritesOrderedByTitle()` crean la tabla, filtran `favorite = 1` y ordenan alfabéticamente por `title`.
+- `CA-4.2` [auto] `BookDatabase.syncFromApi()` actualiza `title` y `author` sin borrar `favorite` ni `local_note`, verificado en [BookDatabaseTest.kt](../../m3-http-y-sql/src/test/kotlin/onramp/m3/BookDatabaseTest.kt).
 
 ## Cómo verificar
 
-Este paso es completamente independiente (no necesita que hayas resuelto el Paso 4). Desde la raíz del repositorio ejecuta sus 2 pruebas y luego la verificación completa:
+Este paso es completamente independiente (no necesita que hayas resuelto el Paso 3). Desde la raíz del repositorio ejecuta sus 2 pruebas:
 
 ```bash
-./gradlew paso5 --no-parallel
-./gradlew ready --no-parallel
+./gradlew paso4 --no-parallel
 ```
 
-Cuando `./gradlew ready --no-parallel` termine con 11/11 pruebas en verde, estás listo para iniciar [ykro/android-course](https://github.com/ykro/android-course).
+Cuando las 2 pruebas terminen en verde, avanza al [Paso 5: Pruebas automatizadas desde cero con JUnit y Turbine](../05-pruebas-desde-cero/README.md).

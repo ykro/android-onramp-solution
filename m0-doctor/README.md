@@ -1,9 +1,9 @@
-# Paso 1 (`m0-doctor`)
+# Inicio rápido (`m0-doctor`)
 
-La guía completa con criterios de aceptación (`CA-1.1`) y solución de problemas está en [steps/01-entorno/README.md](../steps/01-entorno/README.md).
+Este módulo verifica tu entorno antes de iniciar los 5 pasos: comprueba que tengas JDK 21 o superior y `ANDROID_HOME` apuntando a una carpeta válida del Android SDK con al menos una plataforma instalada.
 
 ## Verificación rápida
 
 ```bash
-./gradlew paso1 --no-parallel
+./gradlew doctor --no-parallel
 ```

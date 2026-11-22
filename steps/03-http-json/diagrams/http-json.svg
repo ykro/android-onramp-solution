@@ -10,7 +10,7 @@
 
   <rect width="960" height="360" rx="12" fill="#F8F7F4"/>
 
-  <text x="32" y="40" fill="#0F2547" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="19" font-weight="700">Paso 4 — Cliente HTTP y JSON tolerante contra MockWebServer</text>
+  <text x="32" y="40" fill="#0F2547" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="19" font-weight="700">Paso 3 — Cliente HTTP y JSON tolerante contra MockWebServer</text>
   <text x="32" y="62" fill="#475569" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="13">Prueba respuestas 200 con campos extra, errores 500 y JSON dañado en milisegundos sin internet</text>
 
   <!-- Caja izquierda: MockWebServer -->
