@@ -75,3 +75,7 @@ Documento corto que registra una decisión de diseño importante (estado, contex
 ## Firebase (Auth, Firestore y `firestore.rules`)
 
 Plataforma gestionada de Google que usarás en la Unidad 3 de `android-course`: [Firebase Authentication](https://firebase.google.com/docs/auth) verifica la identidad del usuario (`uid`), [Cloud Firestore](https://firebase.google.com/docs/firestore/query-data/listen) envía actualizaciones en tiempo real que envolvemos en [`callbackFlow`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/callback-flow.html) y [`firestore.rules`](https://firebase.google.com/docs/firestore/security/get-started) valida los permisos en el servidor. Consulta la guía visual en [docs/firebase.md](firebase.md).
+
+## CI (Integración Continua)
+
+Práctica de ejecutar automáticamente las pruebas y verificaciones de estilo en una máquina limpia cada vez que subes cambios con `git push` o abres un Pull Request, usando herramientas como [GitHub Actions](https://docs.github.com/es/actions/about-github-actions/understanding-github-actions). Revisa la guía visual en [docs/ci.md](ci.md).

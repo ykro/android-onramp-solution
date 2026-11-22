@@ -56,6 +56,7 @@ Este repositorio contiene las soluciones completas y verificadas (`14/14` prueba
 ## Guías de lectura y uso de IA
 
 - **Cómo leer un ADR:** revisa el ejemplo de 15 líneas para Android en [docs/adr-ejemplo.md](docs/adr-ejemplo.md).
+- **Qué es el CI (Integración Continua):** entiende qué corre GitHub Actions tras cada `git push` en [docs/ci.md](docs/ci.md).
 - **Firebase en la Unidad 3:** repasa Firebase Auth, Firestore con `callbackFlow` y `firestore.rules` en [docs/firebase.md](docs/firebase.md).
 - **Glosario técnico:** si quieres repasar algún término, consulta [docs/glosario.md](docs/glosario.md).
 - **Uso de IA:** este repositorio conserva [AGENTS.md](AGENTS.md) en **modo tutor socrático**: puedes pedirle a cualquier asistente de IA que te explique una solución o te proponga un ejemplo alternativo.
