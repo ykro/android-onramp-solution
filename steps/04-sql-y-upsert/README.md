@@ -1,45 +1,68 @@
 # Paso 4. SQLite, `ON CONFLICT DO UPDATE` y puente hacia Room 3
 
-![SQLite ON CONFLICT DO UPDATE frente a INSERT OR REPLACE](diagrams/sql-upsert.svg)
+![Paso 4. SQLite, `ON CONFLICT DO UPDATE` y puente hacia Room 3](diagrams/sql-upsert.svg)
+
+Este paso toma unos 30 minutos.
+
+## Antes de empezar
+
+1. Si guardas los libros de la app en una lista en memoria, ¿qué pasa con ellos cuando la persona cierra la app?
+2. La app marca un libro como favorito y le pone una nota. Después sincroniza el catálogo con el API, que no sabe nada de favoritos. ¿Qué debería pasar con la marca y la nota?
+3. ¿Qué diferencia hay entre borrar una fila y volver a crearla, y modificar solo algunas de sus columnas?
 
 ## Por qué importa
 
-En Android, [Room 3](https://developer.android.com/training/data-storage/room) corre directamente sobre SQLite. Dominar tres operaciones básicas de SQLite —[`CREATE TABLE` con `PRIMARY KEY`](https://www.sqlite.org/lang_createtable.html), [`SELECT ... WHERE ... ORDER BY`](https://www.sqlite.org/lang_select.html) y [`ON CONFLICT(id) DO UPDATE`](https://www.sqlite.org/lang_upsert.html)— evita un error clásico de sincronización: usar `INSERT OR REPLACE`, que elimina la fila existente y reinicia `favorite` y `local_note` cada vez que la API actualiza el catálogo.
+Las apps del curso guardan datos en el teléfono con [Room 3](https://developer.android.com/training/data-storage/room), que corre sobre SQLite. Room genera parte del SQL, pero tú sigues escribiendo consultas y decidiendo cómo se sincronizan los datos del API con los del teléfono. Un error clásico es sincronizar con `INSERT OR REPLACE`, que borra la fila vieja y crea una nueva, así que se pierden las columnas que solo existen en el teléfono, como un favorito o una nota. El [upsert de SQLite](https://www.sqlite.org/lang_upsert.html) actualiza solo las columnas que vienen del API.
 
-## Qué se construye
+## Lo mínimo que necesitas saber
 
-En [BookDatabase.kt](../../m3-http-y-sql/src/main/kotlin/onramp/m3/BookDatabase.kt):
+Si nunca has usado una base de datos, este recuadro alcanza para el paso.
 
-- `createSchema()`: ejecuta `CREATE TABLE IF NOT EXISTS books` con `id INTEGER PRIMARY KEY`, `title TEXT NOT NULL`, `author TEXT NOT NULL`, `favorite INTEGER NOT NULL DEFAULT 0` y `local_note TEXT NOT NULL DEFAULT ''`.
-- `syncFromApi()`: reemplaza `INSERT OR REPLACE` por:
+- **Tabla.** Guarda datos en filas y columnas, como una hoja de cálculo donde cada columna tiene un tipo. `CREATE TABLE IF NOT EXISTS books (...)` la crea si todavía no existe.
+- **Llave primaria.** Una columna marcada `PRIMARY KEY` identifica cada fila; no puede haber dos filas con el mismo valor. Aquí es el `id` del libro.
+- **Restricciones.** `NOT NULL` obliga a que la columna tenga valor y `DEFAULT 0` define el valor cuando no lo mandas.
+- **Leer.** `SELECT columnas FROM tabla WHERE condición ORDER BY columna ASC` trae las filas que cumplen la condición, ordenadas.
+- **Escribir.** `INSERT INTO tabla (columnas) VALUES (?, ?)` agrega una fila y `UPDATE tabla SET columna = ? WHERE id = ?` cambia filas existentes. Si insertas un `id` que ya existe, SQLite reporta un conflicto.
+- **Parámetros `?`.** Los valores se pasan aparte con `statement.setInt(1, ...)` y nunca se pegan dentro del texto SQL. Así un título con comillas no rompe la consulta ni permite inyección SQL.
+- **JDBC.** Es la forma estándar de hablar con bases de datos desde la JVM. `connection.prepareStatement(sql)` prepara la consulta y `executeQuery()` devuelve un `ResultSet` que recorres fila por fila.
 
-```sql
-INSERT INTO books (id, title, author)
-VALUES (?, ?, ?)
-ON CONFLICT(id) DO UPDATE SET
-    title = excluded.title,
-    author = excluded.author
-```
+### Equivalencias con Room 3
 
-- `findFavoritesOrderedByTitle()`: ejecuta `SELECT id, title, author, favorite, local_note FROM books WHERE favorite = 1 ORDER BY title ASC` y mapea cada fila a `StoredBook`.
+| En este paso | En Room 3, en el curso |
+| --- | --- |
+| `CREATE TABLE books (id INTEGER PRIMARY KEY, ...)` | Una `data class` con `@Entity(tableName = "books")` y `@PrimaryKey val id: Int` |
+| Un `SELECT ... WHERE ... ORDER BY ...` | Un método con `@Query("...")` dentro de una interfaz `@Dao` |
+| `INSERT ... ON CONFLICT(id) DO UPDATE SET ...` | Un `@Query` propio o una actualización parcial que conserva las columnas locales |
 
-### Equivalencia directa con Room 3 en `android-course`
+## Qué vas a hacer
 
-- `CREATE TABLE books (id INTEGER PRIMARY KEY, ...)` -> `@Entity(tableName = "books")` con `@PrimaryKey val id: Int`.
-- `SELECT ... WHERE favorite = 1 ORDER BY title ASC` -> `@Query("...")` dentro de una interfaz `@Dao`.
-- `ON CONFLICT(id) DO UPDATE SET ...` -> un `@Query` propio o actualización parcial para conservar columnas locales al sincronizar.
+- **Leer.** Abre [BookDatabase.kt](../../m3-http-y-sql/src/main/kotlin/onramp/m3/BookDatabase.kt) y [BookDatabaseTest.kt](../../m3-http-y-sql/src/test/kotlin/onramp/m3/BookDatabaseTest.kt). En el segundo test, anota en orden qué se sincroniza, qué se marca como favorito y qué se espera al final.
+- **Debuguear.** Corre `./gradlew paso4 --no-parallel`. Explica con tus palabras por qué `INSERT OR REPLACE` borra el favorito aunque la consulta no menciona esa columna. La [documentación de REPLACE](https://www.sqlite.org/lang_conflict.html) lo dice en una línea.
+- **Escribir.** Implementa `createSchema` y `findFavoritesOrderedByTitle`, y cambia el SQL de `syncFromApi`.
 
 ## Criterios de aceptación
 
-- `CA-4.1` [auto] `BookDatabase.createSchema()` y `findFavoritesOrderedByTitle()` crean la tabla, filtran `favorite = 1` y ordenan alfabéticamente por `title`.
-- `CA-4.2` [auto] `BookDatabase.syncFromApi()` actualiza `title` y `author` sin borrar `favorite` ni `local_note`, verificado en [BookDatabaseTest.kt](../../m3-http-y-sql/src/test/kotlin/onramp/m3/BookDatabaseTest.kt).
+- `CA-4.1` `createSchema()` crea la tabla y `findFavoritesOrderedByTitle()` devuelve solo los favoritos, ordenados alfabéticamente por título.
+- `CA-4.2` Sincronizar de nuevo un libro existente actualiza `title` y `author` sin borrar `favorite` ni `local_note`.
+
+## Al terminar
+
+1. ¿Qué pasa si llamas `createSchema()` dos veces seguidas? ¿Qué parte de tu SQL lo permite?
+2. Si el API deja de mandar un libro que ya estaba en el teléfono, ¿qué hace hoy `syncFromApi`? ¿Debería borrarlo?
+3. En Room, ¿dónde escribirías la consulta de favoritos? Usa la tabla de equivalencias de este paso.
+4. Explica en tres líneas, con tus palabras, qué cambiaste y por qué. Si no puedes, vuelve a la pista 1 antes de seguir.
 
 ## Cómo verificar
-
-Este paso es completamente independiente (no necesita que hayas resuelto el Paso 3). Desde la raíz del repositorio ejecuta sus 2 pruebas:
 
 ```bash
 ./gradlew paso4 --no-parallel
 ```
 
-Cuando las 2 pruebas terminen en verde, avanza al [Paso 5: Pruebas automatizadas desde cero con JUnit y Turbine](../05-pruebas-desde-cero/README.md).
+Si te trabas, abre la [pista 1](hints/1.md). Cada pista da un poco más que la anterior; la pista 3 trae un esqueleto, nunca la respuesta completa.
+
+## Respuestas de autoevaluación
+
+1. No pasa nada, la segunda llamada no hace cambios. `IF NOT EXISTS` le dice a SQLite que solo cree la tabla si no existe; sin eso, la segunda llamada fallaría con `table books already exists`.
+2. No hace nada con él, el libro se queda en el teléfono. Borrarlo o no es una decisión de producto; si la persona lo marcó como favorito, quizás conviene conservarlo y marcarlo como no disponible.
+3. En una interfaz anotada con `@Dao`, como un método con `@Query("SELECT ... WHERE favorite = 1 ORDER BY title ASC")`. Room revisa esa consulta al compilar.
+4. Respuesta personal. Debe mencionar la llave primaria, que `INSERT OR REPLACE` borra la fila y que `ON CONFLICT DO UPDATE` actualiza solo las columnas que vienen del API.

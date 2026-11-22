@@ -1,14 +1,22 @@
 # Glosario de Android On-Ramp
 
-Este glosario reúne los términos técnicos que aparecen en el inicio rápido, los cinco pasos prácticos y las guías de lectura de Android On-Ramp. Cada definición explica cómo se usa en el día a día y enlaza a su documentación oficial.
+Este glosario reúne los términos técnicos que aparecen en los seis pasos y las guías de lectura de Android On-Ramp. Cada definición explica cómo se usa en el día a día y enlaza a su documentación oficial.
 
 ## JDK 21
 
 Kit de desarrollo de Java versión 21 (por ejemplo, [Eclipse Temurin 21](https://adoptium.net/temurin/releases/?version=21)). Gradle y las herramientas modernas de Android y Kotlin corren sobre esta versión de Java, por eso `./gradlew doctor --no-parallel` comprueba que esté instalada antes de empezar.
 
+## Gradle y `./gradlew`
+
+Herramienta que compila y prueba proyectos de Kotlin y Android ([Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html)). `./gradlew` descarga la versión exacta que pide el proyecto, así todos usan la misma. Cada carpeta `m*` es un módulo y cada `pasoN` es una tarea que corre sus tests.
+
 ## `ANDROID_HOME`
 
 Variable de entorno que señala la carpeta donde vive tu Android SDK (plataformas y herramientas de línea de comandos), descrita en la [documentación oficial de variables de Android](https://developer.android.com/tools/variables#envar). Cuando Gradle construye un proyecto Android en `android-course`, lee esta ruta para encontrar la plataforma del SDK.
+
+## Tipos nulos (`String?`)
+
+En Kotlin, `String` nunca es `null` y `String?` puede serlo ([Null safety](https://kotlinlang.org/docs/null-safety.html)). El compilador no te deja usar un `String?` sin revisarlo antes con `if`, `?.`, `?:` o `isNullOrBlank()`. Así los `NullPointerException` aparecen al compilar y no en el teléfono de alguien.
 
 ## Trailing lambdas y funciones con receptor
 
@@ -79,3 +87,7 @@ Plataforma gestionada de Google que usarás en la Unidad 3 de `android-course`: 
 ## CI (Integración Continua)
 
 Práctica de ejecutar automáticamente las pruebas y verificaciones de estilo en una máquina limpia cada vez que subes cambios con `git push` o abres un Pull Request, usando herramientas como [GitHub Actions](https://docs.github.com/es/actions/about-github-actions/understanding-github-actions). Revisa la guía visual en [docs/ci.md](ci.md).
+
+## Versión con un bug
+
+En el Paso 5, una copia de `computeReadingStreak` con un error a propósito, guardada en `m4-pruebas-desde-cero/src/conBug*/`. `./gradlew paso5` corre tus tests contra cada versión con un bug; si todos siguen en verde, tus tests no distinguen la función correcta de una rota.

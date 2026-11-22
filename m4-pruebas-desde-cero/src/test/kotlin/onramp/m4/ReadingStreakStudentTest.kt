@@ -1,17 +1,18 @@
 package onramp.m4
 
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertThrows
 import org.junit.Test
 
 /**
- * Paso 5 — Solución de referencia para pruebas automatizadas desde cero con JUnit.
+ * Paso 5: tests de computeReadingStreak con Arrange, Act y Assert.
+ * `./gradlew paso5 --no-parallel` los corre contra la función correcta y contra dos
+ * versiones con un bug.
  */
 class ReadingStreakStudentTest {
 
     @Test
-    fun `CA-5-1 caso normal devuelve la racha consecutiva mas larga`() {
-        // Arrange
+    fun `caso normal devuelve la racha consecutiva mas larga`() {
+        // Arrange: dos rachas, de 2 y de 3 días, separadas por un día en 0.
         val dailyMinutes = listOf(15, 20, 0, 30, 25, 10)
 
         // Act
@@ -22,29 +23,14 @@ class ReadingStreakStudentTest {
     }
 
     @Test
-    fun `CA-5-2 caso borde devuelve cero para lista vacia y dias en cero`() {
-        // Arrange
-        val emptyDays = emptyList<Int>()
-        val zeroDays = listOf(0, 0, 0)
-        val nonPositiveDays = listOf(0, -10, 0)
-
-        // Act & Assert
-        assertEquals(0, computeReadingStreak(emptyDays))
-        assertEquals(0, computeReadingStreak(zeroDays))
-        assertEquals(0, computeReadingStreak(nonPositiveDays))
+    fun `casos borde devuelven cero`() {
+        assertEquals(0, computeReadingStreak(emptyList()))
+        assertEquals(0, computeReadingStreak(listOf(0, 0, 0)))
     }
 
     @Test
-    fun `CA-5-3 prueba pasa con la version sana y falla contra computeReadingStreakBuggy`() {
-        // Arrange
-        val dailyMinutes = listOf(15, 0, 20, 30)
-
-        // Act & Assert: verde contra el código sano
-        assertEquals(2, computeReadingStreak(dailyMinutes))
-
-        // Rojo contra la versión con bug (devuelve 3 porque no reinicia en 0)
-        assertThrows(AssertionError::class.java) {
-            assertEquals(2, computeReadingStreakBuggy(dailyMinutes))
-        }
+    fun `dias negativos cortan la racha`() {
+        // Un valor negativo no es lectura: corta la racha igual que un 0.
+        assertEquals(2, computeReadingStreak(listOf(10, -5, 20, 30)))
     }
 }

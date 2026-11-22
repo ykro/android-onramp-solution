@@ -1,15 +1,35 @@
 import org.gradle.api.GradleException
 
+plugins {
+    alias(libs.plugins.kotlin.jvm)
+    application
+}
+
+dependencies {
+    testImplementation(libs.junit)
+}
+
+application {
+    mainClass.set("onramp.m0.PrimerosPasosKt")
+}
+
+tasks.test {
+    testLogging {
+        events("passed", "failed")
+        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.SHORT
+    }
+}
+
 tasks.register("doctor") {
     group = "verification"
-    description = "Verifica JDK >= 21 y ANDROID_HOME / SDK de Android."
+    description = "Verifica JDK 21 o superior y el Android SDK."
 
     doLast {
         val issues = mutableListOf<String>()
         val javaMajor = Runtime.version().feature()
         val javaVersion = System.getProperty("java.version") ?: javaMajor.toString()
 
-        println("=== Android Onramp Doctor ===")
+        println("=== Android On-Ramp Doctor ===")
         println()
 
         if (javaMajor >= 21) {

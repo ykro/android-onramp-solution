@@ -1,63 +1,39 @@
-# Android On-Ramp — Soluciones de referencia
+# Android On-Ramp (solución de referencia)
 
-Este repositorio contiene las soluciones completas y verificadas (`14/14` pruebas en verde) de [ykro/android-onramp](https://github.com/ykro/android-onramp). Úsalo para comparar tu trabajo y entender qué se cambió en cada uno de los cinco pasos independientes antes de iniciar [ykro/android-course](https://github.com/ykro/android-course).
+Este repositorio contiene la solución verificada de [Android On-Ramp](https://github.com/ykro/android-onramp), la nivelación previa al [curso de Android](https://github.com/ykro/android-course). Aquí `./gradlew ready --no-parallel` termina en verde con los seis pasos, de `paso0` a `paso5`. Cada guía en `steps/` termina con las respuestas de autoevaluación.
 
 ![Mapa de Android On-Ramp](docs/diagrams/overview.svg)
 
-## Inicio rápido
-
-1. Exporta `ANDROID_HOME` si aún no está definido en tu terminal (por ejemplo en macOS: `export ANDROID_HOME="$HOME/Library/Android/sdk"`).
-2. Verifica tu entorno con `doctor` y ejecuta la verificación completa (`paso1` a `paso5`, 14 pruebas):
-
-```bash
-./gradlew doctor --no-parallel
-./gradlew ready --no-parallel
-```
-
-3. También puedes verificar cada paso por separado:
-
-```bash
-./gradlew paso1 --no-parallel
-./gradlew paso2 --no-parallel
-./gradlew paso3 --no-parallel
-./gradlew paso4 --no-parallel
-./gradlew paso5 --no-parallel
-```
-
-## Los 5 pasos (independientes)
-
-| Paso | Tiempo | Enfoque | Verificación | Guía |
-| --- | --- | --- | --- | --- |
-| Paso 1 | 15 min | Trailing lambdas con receptor, `sealed interface` y `StateFlow` inmutable | `./gradlew paso1 --no-parallel` | [steps/01-kotlin-y-stateflow/README.md](steps/01-kotlin-y-stateflow/README.md) |
-| Paso 2 | 15 min | `suspend`/`delay` con reloj virtual, `CancellationException` y `remember` | `./gradlew paso2 --no-parallel` | [steps/02-corrutinas-y-ui/README.md](steps/02-corrutinas-y-ui/README.md) |
-| Paso 3 | 10 min | `kotlinx.serialization`, `MockWebServer` y errores HTTP o de parseo | `./gradlew paso3 --no-parallel` | [steps/03-http-json/README.md](steps/03-http-json/README.md) |
-| Paso 4 | 10 min | SQLite (`CREATE TABLE`, `SELECT/ORDER BY`, `ON CONFLICT DO UPDATE`) y Room 3 | `./gradlew paso4 --no-parallel` | [steps/04-sql-y-upsert/README.md](steps/04-sql-y-upsert/README.md) |
-| Paso 5 | 10 min | Pruebas automatizadas desde cero con JUnit y Turbine (Arrange -> Act -> Assert) | `./gradlew paso5 --no-parallel` | [steps/05-pruebas-desde-cero/README.md](steps/05-pruebas-desde-cero/README.md) |
-
 ## Dónde ver la solución de cada paso
 
-| Paso | Criterio | Qué se cambió y por qué | Archivo de solución |
+| Paso | Criterios | Qué se cambió y por qué | Archivo |
 | --- | --- | --- | --- |
-| Paso 1 | `CA-1.1` | `miniColumn` crea `ColumnScope()`, ejecuta `scope.content()` y devuelve `scope.buildLines()` para recolectar textos en orden. | [m1-kotlin-dsl-estado/src/main/kotlin/onramp/m1/DslBuilders.kt](m1-kotlin-dsl-estado/src/main/kotlin/onramp/m1/DslBuilders.kt) |
-| Paso 1 | `CA-1.2` | `miniModule` crea `ModuleScope()`, ejecuta `scope.definitions()` y devuelve el contenedor con fábricas `single` cacheadas. | [m1-kotlin-dsl-estado/src/main/kotlin/onramp/m1/DslBuilders.kt](m1-kotlin-dsl-estado/src/main/kotlin/onramp/m1/DslBuilders.kt) |
-| Paso 1 | `CA-1.3` | `renderOrderBanner` usa un `when` exhaustivo sin `else` sobre `OrderBannerState`, distinguiendo singular y plural en `Preparing`. | [m1-kotlin-dsl-estado/src/main/kotlin/onramp/m1/OrderState.kt](m1-kotlin-dsl-estado/src/main/kotlin/onramp/m1/OrderState.kt) |
-| Paso 1 | `CA-1.4` | `OrderBoardState` cambia `MutableList` por `List` de solo lectura y `OrderBoard` usa `_state.update { it.copy(...) }` para que `StateFlow` detecte cada cambio y emita a la pantalla. | [m1-kotlin-dsl-estado/src/main/kotlin/onramp/m1/OrderState.kt](m1-kotlin-dsl-estado/src/main/kotlin/onramp/m1/OrderState.kt) |
-| Paso 2 | `CA-2.1` | `countdownTicks` usa `flow { ... }` y `delay(stepMs)` en lugar de `Thread.sleep`, de modo que `runTest` adelanta el reloj virtual al instante. | [m2-corrutinas-y-ui/src/main/kotlin/onramp/m2/CoroutinesAndUi.kt](m2-corrutinas-y-ui/src/main/kotlin/onramp/m2/CoroutinesAndUi.kt) |
-| Paso 2 | `CA-2.2` | `runSafely` captura y relanza `CancellationException` antes de capturar `Exception`, evitando que una pantalla cerrada deje corrutinas activas. | [m2-corrutinas-y-ui/src/main/kotlin/onramp/m2/CoroutinesAndUi.kt](m2-corrutinas-y-ui/src/main/kotlin/onramp/m2/CoroutinesAndUi.kt) |
-| Paso 2 | `CA-2.3` | `renderStudyCounter` sustituye `var count = 0` por `memory.remember("sessions") { 0 }` para conservar el contador entre redibujos sucesivos. | [m2-corrutinas-y-ui/src/main/kotlin/onramp/m2/CoroutinesAndUi.kt](m2-corrutinas-y-ui/src/main/kotlin/onramp/m2/CoroutinesAndUi.kt) |
-| Paso 3 | `CA-3.1` | `BookApiClient` configura `Json { ignoreUnknownKeys = true }` para decodificar `List<BookDto>` sin fallar cuando el servidor envía campos extra. | [m3-http-y-sql/src/main/kotlin/onramp/m3/BookApiClient.kt](m3-http-y-sql/src/main/kotlin/onramp/m3/BookApiClient.kt) |
-| Paso 3 | `CA-3.2` | `fetchBooks()` revisa `!response.isSuccessful` para devolver `ApiResult.HttpError(response.code)` y atrapa `SerializationException` para devolver `ApiResult.ParseError`. | [m3-http-y-sql/src/main/kotlin/onramp/m3/BookApiClient.kt](m3-http-y-sql/src/main/kotlin/onramp/m3/BookApiClient.kt) |
-| Paso 4 | `CA-4.1` | `BookDatabase.createSchema()` crea la tabla `books` con `PRIMARY KEY` y valores por defecto, y `findFavoritesOrderedByTitle()` filtra `favorite = 1` ordenado por `title ASC`. | [m3-http-y-sql/src/main/kotlin/onramp/m3/BookDatabase.kt](m3-http-y-sql/src/main/kotlin/onramp/m3/BookDatabase.kt) |
-| Paso 4 | `CA-4.2` | `syncFromApi()` reemplaza `INSERT OR REPLACE` por `ON CONFLICT(id) DO UPDATE SET title = excluded.title, author = excluded.author` para actualizar sin borrar `favorite` ni `local_note`. | [m3-http-y-sql/src/main/kotlin/onramp/m3/BookDatabase.kt](m3-http-y-sql/src/main/kotlin/onramp/m3/BookDatabase.kt) |
-| Paso 5 | `CA-5.1` | Prueba de caso normal en Arrange -> Act -> Assert que valida la racha consecutiva más larga sobre `computeReadingStreak`. | [m4-pruebas-desde-cero/src/test/kotlin/onramp/m4/ReadingStreakStudentTest.kt](m4-pruebas-desde-cero/src/test/kotlin/onramp/m4/ReadingStreakStudentTest.kt) |
-| Paso 5 | `CA-5.2` | Prueba de casos borde que verifica el resultado `0` ante lista vacía, días en cero y valores negativos. | [m4-pruebas-desde-cero/src/test/kotlin/onramp/m4/ReadingStreakStudentTest.kt](m4-pruebas-desde-cero/src/test/kotlin/onramp/m4/ReadingStreakStudentTest.kt) |
-| Paso 5 | `CA-5.3` | Prueba que pasa en verde contra `computeReadingStreak` y demuestra con `assertThrows(AssertionError::class.java)` que la misma aserción falla en rojo contra `computeReadingStreakBuggy`. | [m4-pruebas-desde-cero/src/test/kotlin/onramp/m4/ReadingStreakStudentTest.kt](m4-pruebas-desde-cero/src/test/kotlin/onramp/m4/ReadingStreakStudentTest.kt) |
+| Paso 0 | `CA-0.1` a `CA-0.4` | `saludar` revisa `isNullOrBlank()` antes de usar el nombre, y después de esa revisión Kotlin sabe que no es `null`. `librosLargos` encadena `filter`, `map` y `sorted`. `nivelDeLectura` usa un `when` con condiciones en orden. | [PrimerosPasos.kt](m0-doctor/src/main/kotlin/onramp/m0/PrimerosPasos.kt) |
+| Paso 1 | `CA-1.1` a `CA-1.4` | `miniColumn` y `miniModule` crean el scope y ejecutan la lambda con receptor sobre él. `renderOrderBanner` usa un `when` exhaustivo sin `else`, así un estado nuevo no compila hasta manejarlo. `OrderBoardState` guarda una `List` de solo lectura y `OrderBoard` emite un estado nuevo con `update` y `copy`. | [DslBuilders.kt](m1-kotlin-dsl-estado/src/main/kotlin/onramp/m1/DslBuilders.kt), [OrderState.kt](m1-kotlin-dsl-estado/src/main/kotlin/onramp/m1/OrderState.kt) |
+| Paso 2 | `CA-2.1` a `CA-2.3` | `countdownTicks` usa `flow` y `delay`, que el reloj virtual adelanta. `runSafely` relanza `CancellationException` antes del `catch` genérico. El contador vive en `memory.remember("sessions")` y sobrevive al redibujo. | [CoroutinesAndUi.kt](m2-corrutinas-y-ui/src/main/kotlin/onramp/m2/CoroutinesAndUi.kt) |
+| Paso 3 | `CA-3.1`, `CA-3.2` | `Json { ignoreUnknownKeys = true }` tolera campos nuevos. El cliente revisa `isSuccessful` antes de leer el cuerpo y convierte la `SerializationException` en `ParseError`. | [BookApiClient.kt](m3-http-y-sql/src/main/kotlin/onramp/m3/BookApiClient.kt) |
+| Paso 4 | `CA-4.1`, `CA-4.2` | `CREATE TABLE IF NOT EXISTS` con `id` como llave primaria. `ON CONFLICT(id) DO UPDATE` actualiza solo `title` y `author`, así `favorite` y `local_note` sobreviven a la sincronización. La consulta de favoritos filtra y ordena en SQL. | [BookDatabase.kt](m3-http-y-sql/src/main/kotlin/onramp/m3/BookDatabase.kt) |
+| Paso 5 | `CA-5.1` a `CA-5.3` | Tres tests con Arrange, Act, Assert, un caso normal con un día en `0`, los casos borde y un día negativo en medio de una racha. El primero atrapa la versión que no reinicia en `0` y el tercero la que cuenta negativos. | [ReadingStreakStudentTest.kt](m4-pruebas-desde-cero/src/test/kotlin/onramp/m4/ReadingStreakStudentTest.kt) |
 
-## Guías de lectura y uso de IA
+## Los 6 pasos
 
-- **Cómo leer un ADR:** revisa el ejemplo de 15 líneas para Android en [docs/adr-ejemplo.md](docs/adr-ejemplo.md).
-- **Qué es el CI (Integración Continua):** entiende qué corre GitHub Actions tras cada `git push` en [docs/ci.md](docs/ci.md).
-- **Firebase en la Unidad 3:** repasa Firebase Auth, Firestore con `callbackFlow` y `firestore.rules` en [docs/firebase.md](docs/firebase.md).
-- **Glosario técnico:** si quieres repasar algún término, consulta [docs/glosario.md](docs/glosario.md).
-- **Uso de IA:** este repositorio conserva [AGENTS.md](AGENTS.md) en **modo tutor socrático**: puedes pedirle a cualquier asistente de IA que te explique una solución o te proponga un ejemplo alternativo.
-- **Otros enlaces:** índice general en [ykro/courses-onramp](https://github.com/ykro/courses-onramp), repositorio inicial en [ykro/android-onramp](https://github.com/ykro/android-onramp) y curso principal en [ykro/android-course](https://github.com/ykro/android-course).
+| Paso | Tiempo | Qué practicas | Archivo | Guía |
+| --- | --- | --- | --- | --- |
+| Paso 0 | 25 min | Revisar JDK y Android SDK con `doctor`, y Kotlin básico (tipos nulos, `data class`, `filter`/`map`, `when`) | [PrimerosPasos.kt](m0-doctor/src/main/kotlin/onramp/m0/PrimerosPasos.kt) | [steps/00-entorno-y-kotlin](steps/00-entorno-y-kotlin/README.md) |
+| Paso 1 | 30 min | Lambdas con receptor (la sintaxis de Compose y Koin), `sealed interface` y `StateFlow` inmutable | [DslBuilders.kt](m1-kotlin-dsl-estado/src/main/kotlin/onramp/m1/DslBuilders.kt), [OrderState.kt](m1-kotlin-dsl-estado/src/main/kotlin/onramp/m1/OrderState.kt) | [steps/01-kotlin-y-stateflow](steps/01-kotlin-y-stateflow/README.md) |
+| Paso 2 | 25 min | `suspend` y `delay` con reloj virtual, cancelación y estado que sobrevive al redibujo | [CoroutinesAndUi.kt](m2-corrutinas-y-ui/src/main/kotlin/onramp/m2/CoroutinesAndUi.kt) | [steps/02-corrutinas-y-ui](steps/02-corrutinas-y-ui/README.md) |
+| Paso 3 | 20 min | Requests con OkHttp, JSON tolerante a campos nuevos y errores HTTP o de parseo con `MockWebServer` | [BookApiClient.kt](m3-http-y-sql/src/main/kotlin/onramp/m3/BookApiClient.kt) | [steps/03-http-json](steps/03-http-json/README.md) |
+| Paso 4 | 30 min | Tu primera base de datos, tablas, llave primaria, `SELECT` y `ON CONFLICT DO UPDATE` en SQLite, y su equivalente en Room 3 | [BookDatabase.kt](m3-http-y-sql/src/main/kotlin/onramp/m3/BookDatabase.kt) | [steps/04-sql-y-upsert](steps/04-sql-y-upsert/README.md) |
+| Paso 5 | 20 min | Tests desde cero con JUnit que se ponen en rojo ante una versión con un bug | [ReadingStreakStudentTest.kt](m4-pruebas-desde-cero/src/test/kotlin/onramp/m4/ReadingStreakStudentTest.kt) | [steps/05-pruebas-desde-cero](steps/05-pruebas-desde-cero/README.md) |
+
+## Verificación
+
+1. `./gradlew doctor --no-parallel` para revisar el JDK y el Android SDK.
+2. `./gradlew paso0 --no-parallel` hasta `./gradlew paso5 --no-parallel`, o `./gradlew ready --no-parallel` para todos.
+3. `./gradlew :m0-doctor:run --no-parallel` para ver el programa del Paso 0.
+
+## Repositorios relacionados
+
+- Índice de on-ramps: [ykro/courses-onramp](https://github.com/ykro/courses-onramp)
+- Repositorio con los ejercicios: [ykro/android-onramp](https://github.com/ykro/android-onramp)
+- Curso principal: [ykro/android-course](https://github.com/ykro/android-course)

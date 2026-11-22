@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+
 plugins {
     alias(libs.plugins.kotlin.jvm)
 }
@@ -9,9 +11,83 @@ dependencies {
     testImplementation(libs.turbine)
 }
 
+// El estudiante escribe sus tests en src/test/kotlin. El verificador del Paso 5 los corre
+// primero contra la función correcta y después contra cada versión con un bug de
+// src/conBug<Nombre>/kotlin, que define la misma función con el mismo nombre.
+val versionesConBug = linkedMapOf(
+    "NoReiniciaEnCero" to "no reinicia la racha cuando un día tiene 0 minutos",
+    "CuentaNegativos" to "cuenta como lectura los días con minutos negativos",
+)
+
+var testsQuePasaron = 0L
 tasks.test {
     testLogging {
         events("passed", "failed")
-        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.SHORT
+        exceptionFormat = TestExceptionFormat.SHORT
     }
+    addTestListener(object : TestListener {
+        override fun beforeSuite(suite: TestDescriptor) {}
+        override fun beforeTest(testDescriptor: TestDescriptor) {}
+        override fun afterTest(testDescriptor: TestDescriptor, result: TestResult) {}
+        override fun afterSuite(suite: TestDescriptor, result: TestResult) {
+            if (suite.parent == null) testsQuePasaron = result.successfulTestCount
+        }
+    })
+    doLast {
+        if (testsQuePasaron < 3) {
+            throw GradleException(
+                "CA-5.1 Hay $testsQuePasaron tests que pasan; se esperan al menos 3 en ReadingStreakStudentTest.kt.",
+            )
+        }
+        println("[OK] CA-5.1 Tus $testsQuePasaron tests pasan contra la función correcta.")
+    }
+}
+
+val verificaciones = versionesConBug.entries.mapIndexed { indice, (nombre, descripcion) ->
+    val principal = sourceSets.create("conBug$nombre")
+    val pruebas = sourceSets.create("testConBug$nombre") {
+        kotlin.srcDir("src/test/kotlin")
+        compileClasspath += principal.output
+        runtimeClasspath += principal.output
+    }
+    configurations[principal.implementationConfigurationName].extendsFrom(configurations.implementation.get())
+    configurations[pruebas.implementationConfigurationName].extendsFrom(configurations.testImplementation.get())
+    configurations[pruebas.runtimeOnlyConfigurationName].extendsFrom(configurations.testRuntimeOnly.get())
+    dependencies.add(pruebas.implementationConfigurationName, libs.kotlinx.coroutines.core)
+
+    val criterio = "CA-5.${indice + 2}"
+    tasks.register<Test>("testContraVersionConBug$nombre") {
+        group = "verification"
+        description = "Paso 5: corre tus tests contra una versión que $descripcion."
+        testClassesDirs = pruebas.output.classesDirs
+        classpath = pruebas.runtimeClasspath
+        ignoreFailures = true
+        mustRunAfter(tasks.test)
+        outputs.upToDateWhen { false }
+        outputs.cacheIf { false }
+        var fallidos = 0L
+        addTestListener(object : TestListener {
+            override fun beforeSuite(suite: TestDescriptor) {}
+            override fun beforeTest(testDescriptor: TestDescriptor) {}
+            override fun afterTest(testDescriptor: TestDescriptor, result: TestResult) {}
+            override fun afterSuite(suite: TestDescriptor, result: TestResult) {
+                if (suite.parent == null) fallidos = result.failedTestCount
+            }
+        })
+        doLast {
+            if (fallidos == 0L) {
+                throw GradleException(
+                    "$criterio Todos tus tests pasan con una versión que $descripcion. Agrega un test que la atrape.",
+                )
+            }
+            println("[OK] $criterio $fallidos test(s) se ponen en rojo con la versión que $descripcion.")
+        }
+    }
+}
+
+tasks.register("verificarPaso5") {
+    group = "verification"
+    description = "Paso 5: tus tests pasan con la función correcta y fallan con cada versión con un bug."
+    dependsOn(tasks.test)
+    dependsOn(verificaciones)
 }
