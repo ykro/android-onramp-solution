@@ -58,7 +58,7 @@ Función de [estado en Jetpack Compose](https://developer.android.com/develop/ui
 
 ## `kotlinx.serialization`
 
-Librería oficial de Kotlin para convertir entre objetos de Kotlin y JSON. Al configurarla con [`Json { ignoreUnknownKeys = true }`](https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md#ignoring-unknown-keys), tu cliente tolera campos adicionales que el servidor agregue en el futuro sin lanzar `SerializationException`.
+Librería oficial de Kotlin para convertir entre objetos de Kotlin y JSON. Por defecto falla con `SerializationException` cuando el JSON trae un campo que tu clase no declara. La [guía de JSON](https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md) explica cómo configurarla para que tolere los campos que el servidor agregue en el futuro.
 
 ## `MockWebServer`
 
@@ -66,7 +66,7 @@ Servidor HTTP local incluido en [OkHttp](https://github.com/square/okhttp/tree/m
 
 ## SQLite `ON CONFLICT DO UPDATE`
 
-Cláusula estándar de actualización condicional en SQLite, documentada en [SQLite UPSERT](https://www.sqlite.org/lang_upsert.html). Cuando insertas un registro cuya llave primaria ya existe, actualiza solo las columnas que elijas (`title = excluded.title, author = excluded.author`) y conserva intactas las columnas locales (`favorite`, `local_note`). A diferencia de `INSERT OR REPLACE`, no borra ni recrea la fila.
+Cláusula estándar de actualización condicional en SQLite, documentada en [SQLite UPSERT](https://www.sqlite.org/lang_upsert.html). Cuando insertas un registro cuya llave primaria ya existe, en lugar de fallar actualiza solo las columnas que elijas, y las demás quedan como estaban. Dentro de esa actualización, `excluded` es el nombre de la fila que intentabas insertar. A diferencia de `INSERT OR REPLACE`, no borra ni recrea la fila.
 
 ## Room
 
@@ -91,3 +91,23 @@ Práctica de ejecutar automáticamente las pruebas y verificaciones de estilo en
 ## Versión con un bug
 
 En el Paso 5, una copia de `computeReadingStreak` con un error a propósito, guardada en `m4-pruebas-desde-cero/src/conBug*/`. `./gradlew paso5` corre tus tests contra cada versión con un bug; si todos siguen en verde, tus tests no distinguen la función correcta de una rota.
+
+## Corrutina
+
+Una tarea que puede pausarse y continuar después sin ocupar un hilo mientras espera ([Kotlin: coroutines](https://kotlinlang.org/docs/coroutines-basics.html)). Se lanza con `launch` dentro de un scope y devuelve un `Job`. En Android sirve para esperar la red o la base de datos sin congelar la pantalla.
+
+## `Flow`
+
+Una secuencia de valores que llegan con el tiempo ([Kotlin: Flow](https://kotlinlang.org/docs/flow.html)). Se construye con `flow { emit(valor) }` y se recolecta con `collect`. `StateFlow` es un `Flow` que siempre tiene un valor actual.
+
+## Hilo principal
+
+El único hilo que dibuja la pantalla y atiende los toques en Android ([Android: threading](https://developer.android.com/guide/components/processes-and-threads#Threads)). Si lo bloqueas con una espera, la app se congela; por eso la red y el disco se mueven a otro hilo con `withContext(Dispatchers.IO)`.
+
+## `Job`
+
+El objeto que devuelve `launch` y representa una corrutina en marcha ([Kotlin: Job](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/)). Con `job.cancel()` la detienes; cuando se cierra una pantalla, su scope cancela todos sus `Job`.
+
+## Koin
+
+La librería de inyección de dependencias que usa el curso ([insert-koin.io](https://insert-koin.io/docs/quickstart/android/)). Declaras en un `module { single { ... } }` cómo se construye cada pieza y Koin la entrega a quien la pida. El Paso 1 imita esa sintaxis con `miniModule`.

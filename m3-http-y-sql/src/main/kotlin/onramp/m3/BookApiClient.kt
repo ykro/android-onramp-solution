@@ -1,5 +1,9 @@
 package onramp.m3
 
+import java.io.IOException
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
@@ -19,6 +23,8 @@ sealed interface ApiResult<out T> {
     data class HttpError(val code: Int) : ApiResult<Nothing>
 
     data object ParseError : ApiResult<Nothing>
+
+    data object NetworkError : ApiResult<Nothing>
 }
 
 /**
@@ -31,27 +37,30 @@ sealed interface ApiResult<out T> {
 class BookApiClient(
     private val baseUrl: String,
     private val client: OkHttpClient = OkHttpClient(),
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
     private val json = Json {
         ignoreUnknownKeys = true
     }
 
-    fun fetchBooks(): ApiResult<List<BookDto>> {
+    suspend fun fetchBooks(): ApiResult<List<BookDto>> = withContext(dispatcher) {
         val url = "${baseUrl.trimEnd('/')}/books"
         val request = Request.Builder().url(url).get().build()
 
-        client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) {
-                return ApiResult.HttpError(response.code)
+        try {
+            client.newCall(request).execute().use { response ->
+                if (!response.isSuccessful) {
+                    ApiResult.HttpError(response.code)
+                } else {
+                    try {
+                        ApiResult.Success(json.decodeFromString<List<BookDto>>(response.body.string()))
+                    } catch (_: SerializationException) {
+                        ApiResult.ParseError
+                    }
+                }
             }
-
-            val body = response.body.string()
-            return try {
-                val books = json.decodeFromString<List<BookDto>>(body)
-                ApiResult.Success(books)
-            } catch (_: SerializationException) {
-                ApiResult.ParseError
-            }
+        } catch (_: IOException) {
+            ApiResult.NetworkError
         }
     }
 }

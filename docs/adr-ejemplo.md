@@ -1,29 +1,22 @@
-# Cómo leer un ADR en Android (`ARCHITECTURE_DECISIONS.md`)
+# Cómo leer un ADR (`ARCHITECTURE_DECISIONS.md`)
 
-En [ykro/android-course](https://github.com/ykro/android-course) encontrarás archivos `ARCHITECTURE_DECISIONS.md` con registros cortos llamados **ADR** (*Architecture Decision Records*), documentados en [adr.github.io](https://adr.github.io/). Un ADR explica **por qué** el equipo eligió una herramienta o un diseño en un momento dado, qué descartó y qué consecuencias acepta.
+En el curso encontrarás un archivo `ARCHITECTURE_DECISIONS.md` que documenta decisiones técnicas importantes usando el formato **ADR** ([Architecture Decision Records](https://adr.github.io/)). Cada entrada responde en pocas líneas qué se decidió, por qué y qué costo se acepta.
 
-## Ejemplo concreto de 15 líneas para Android
+## Ejemplo concreto para Android
 
 ```markdown
-# ADR-003: Usar Room con ON CONFLICT DO UPDATE para sincronizar libros
+# ADR-003: Guardar el catálogo en Room en lugar de un archivo JSON
 - **Estado:** Aceptado (2026-03-10)
-- **Contexto:** La app descarga el catálogo desde la API REST y permite al
-  usuario marcar favoritos y guardar notas locales sin conexión.
-- **Decisión:** Guardamos los libros en Room (SQLite) y sincronizamos con
-  `ON CONFLICT(id) DO UPDATE SET title = excluded.title, author = excluded.author`.
-- **Alternativa descartada:** `INSERT OR REPLACE` en SQLite borra la fila
-  previa y reinicia las columnas locales `favorite` y `local_note`.
+- **Contexto:** La app debe mostrar el catálogo sin conexión. Hoy lo guardamos
+  como un archivo JSON y cada búsqueda lee y recorre el archivo completo.
+- **Decisión:** Guardar los libros en Room (SQLite) con un índice por autor.
+- **Alternativa descartada:** Mantener el archivo JSON. Es más simple, pero cada
+  cambio reescribe el archivo entero y las búsquedas se vuelven lentas.
 - **Consecuencias:**
-  - Positiva: los favoritos y notas del usuario sobreviven a cada recarga.
-  - Positiva: podemos probar la consulta en milisegundos con SQLite en JVM.
-  - Trade-off: el `@Dao` necesita una consulta `@Query` explícita en lugar
-    de usar solo `@Insert(onConflict = OnConflictStrategy.REPLACE)`.
+  - Las búsquedas por autor dejan de recorrer todo el catálogo.
+  - Cada cambio de esquema necesita una migración de Room.
 ```
 
-## Cómo leerlo rápido antes de tocar código
+Cuando abras `ARCHITECTURE_DECISIONS.md`, lee primero el **Contexto** para entender el problema, luego la **Decisión** para seguir la convención del repositorio y al final las **Consecuencias** para saber qué compensación asumió el equipo.
 
-1. **Estado:** confirma si la decisión sigue vigente (`Aceptado`) o ya fue reemplazada (`Superado por ADR-XXX`).
-2. **Contexto y alternativa descartada:** te ahorran volver a proponer una opción que el equipo ya probó y rechazó.
-3. **Consecuencias:** indican qué pruebas, contratos o reglas debes mantener cuando agregues una nueva pantalla o módulo.
-
-Si quieres repasar otros términos del repositorio, vuelve al [glosario](glosario.md) o al [README principal](../README.md).
+Vuelve al [README principal](../README.md) o consulta el [glosario](glosario.md).

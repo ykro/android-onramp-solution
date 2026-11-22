@@ -20,10 +20,11 @@ val versionesConBug = linkedMapOf(
 )
 
 var testsQuePasaron = 0L
+val resultadosConBug = linkedMapOf<String, Long>()
 tasks.test {
     testLogging {
         events("passed", "failed")
-        exceptionFormat = TestExceptionFormat.SHORT
+        exceptionFormat = TestExceptionFormat.FULL
     }
     addTestListener(object : TestListener {
         override fun beforeSuite(suite: TestDescriptor) {}
@@ -63,6 +64,16 @@ val verificaciones = versionesConBug.entries.mapIndexed { indice, (nombre, descr
         classpath = pruebas.runtimeClasspath
         ignoreFailures = true
         mustRunAfter(tasks.test)
+        if (indice > 0) mustRunAfter("testContraVersionConBug${versionesConBug.keys.elementAt(indice - 1)}")
+        testLogging {
+            events("failed")
+            exceptionFormat = TestExceptionFormat.SHORT
+        }
+        doFirst {
+            println()
+            println("== $criterio Ahora corren tus tests contra una versión que $descripcion.")
+            println("   Aquí sí quieres ver tests en rojo (FAILED).")
+        }
         outputs.upToDateWhen { false }
         outputs.cacheIf { false }
         var fallidos = 0L
@@ -75,12 +86,12 @@ val verificaciones = versionesConBug.entries.mapIndexed { indice, (nombre, descr
             }
         })
         doLast {
+            resultadosConBug[criterio] = fallidos
             if (fallidos == 0L) {
-                throw GradleException(
-                    "$criterio Todos tus tests pasan con una versión que $descripcion. Agrega un test que la atrape.",
-                )
+                println("[X] $criterio Todos tus tests pasan con una versión que $descripcion. Agrega un test que la atrape.")
+            } else {
+                println("[OK] $criterio $fallidos test(s) se ponen en rojo con la versión que $descripcion.")
             }
-            println("[OK] $criterio $fallidos test(s) se ponen en rojo con la versión que $descripcion.")
         }
     }
 }
@@ -90,4 +101,12 @@ tasks.register("verificarPaso5") {
     description = "Paso 5: tus tests pasan con la función correcta y fallan con cada versión con un bug."
     dependsOn(tasks.test)
     dependsOn(verificaciones)
+    doLast {
+        val faltan = resultadosConBug.filterValues { it == 0L }.keys
+        if (faltan.isNotEmpty()) {
+            throw GradleException("Paso 5 incompleto. Ningún test atrapa ${faltan.joinToString(" ni ")}.")
+        }
+        println()
+        println("[OK] Paso 5 completo. Tus tests detectan las dos versiones con un bug.")
+    }
 }

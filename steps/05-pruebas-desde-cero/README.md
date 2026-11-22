@@ -2,7 +2,7 @@
 
 ![Paso 5. Tests desde cero con JUnit](diagrams/ciclo-testing.svg)
 
-Este paso toma unos 20 minutos.
+Este paso toma unos 30 minutos.
 
 ## Antes de empezar
 
@@ -13,6 +13,13 @@ Este paso toma unos 20 minutos.
 ## Por qué importa
 
 En los pasos anteriores corriste tests que escribió el curso. En [android-course](https://github.com/ykro/android-course) también escribes los tuyos con [JUnit 4](https://junit.org/junit4/), y en CI corren en cada push. Un test útil sigue el patrón Arrange, Act, Assert (preparar, ejecutar, comprobar) y, sobre todo, se pone en rojo cuando el código tiene un bug. Un test que pasa siempre no protege nada. Por eso aquí tus tests se corren también contra dos versiones con un bug de la misma función.
+
+## Lo mínimo que necesitas saber
+
+- **Un test en JUnit 4.** Es una función con `@Test` dentro de una clase de prueba. Si termina sin errores, pasa. Si un `assertEquals(esperado, real)` no se cumple, lanza `AssertionError` y el test sale en rojo con los dos valores.
+- **`@Ignore`.** Salta el test. Los tres tests de este paso vienen con `@Ignore` para que no fallen antes de que los escribas.
+- **Nombres con espacios.** En Kotlin puedes nombrar un test entre comillas invertidas, por ejemplo ``fun `racha vacía devuelve cero`()``. Así el reporte se lee como una oración.
+- **Qué vas a ver en la consola.** `./gradlew paso5` corre tus tests tres veces. La primera, contra la función correcta, todo debe salir en verde. Las otras dos, contra cada versión con un bug, ahí sí quieres ver `FAILED` y el aviso `There were failing tests`. Al final, el verificador imprime una línea `[OK]` o `[X]` por criterio.
 
 ## Qué vas a hacer
 

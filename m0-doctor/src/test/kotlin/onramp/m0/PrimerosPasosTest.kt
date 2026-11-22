@@ -14,7 +14,7 @@ class PrimerosPasosTest {
     }
 
     @Test
-    fun `CA-0-3 librosLargos filtra y ordena los titulos`() {
+    fun `CA-0-3 librosLargos filtra y ordena los títulos`() {
         assertEquals(
             listOf("Cien años de soledad", "El Señor Presidente", "Hombres de Maíz"),
             librosLargos(ESTANTE),

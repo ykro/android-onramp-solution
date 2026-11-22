@@ -5,7 +5,7 @@ import org.junit.Test
 
 class BookDatabaseTest {
     @Test
-    fun `ejercicio 2 y 4 - SQLite crea tabla, filtra favoritos y ordena por titulo`() {
+    fun `ejercicio 2 y 4 - SQLite crea tabla, filtra favoritos y ordena por título`() {
         BookDatabase().use { db ->
             db.createSchema()
             db.syncFromApi(
@@ -26,7 +26,7 @@ class BookDatabaseTest {
     }
 
     @Test
-    fun `ejercicio 3 - sincronizar de nuevo actualiza el titulo sin borrar favorito ni nota local`() {
+    fun `ejercicio 3 - sincronizar de nuevo actualiza el título sin borrar favorito ni nota local`() {
         BookDatabase().use { db ->
             db.createSchema()
             db.syncFromApi(
@@ -45,7 +45,7 @@ class BookDatabaseTest {
 
             val favorites = db.findFavoritesOrderedByTitle()
             assertEquals(
-                "Al sincronizar de nuevo se borró favorite o local_note. Usa ON CONFLICT(id) DO UPDATE en lugar de INSERT OR REPLACE.",
+                "Al sincronizar de nuevo se borró favorite o local_note. Revisa qué hace tu SQL cuando el id ya existe.",
                 listOf(
                     StoredBook(
                         id = 1,

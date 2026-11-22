@@ -11,7 +11,7 @@ import org.junit.Test
 class ReadingStreakStudentTest {
 
     @Test
-    fun `caso normal devuelve la racha consecutiva mas larga`() {
+    fun `caso normal devuelve la racha consecutiva más larga`() {
         // Arrange: dos rachas, de 2 y de 3 días, separadas por un día en 0.
         val dailyMinutes = listOf(15, 20, 0, 30, 25, 10)
 
@@ -29,7 +29,7 @@ class ReadingStreakStudentTest {
     }
 
     @Test
-    fun `dias negativos cortan la racha`() {
+    fun `días negativos cortan la racha`() {
         // Un valor negativo no es lectura: corta la racha igual que un 0.
         assertEquals(2, computeReadingStreak(listOf(10, -5, 20, 30)))
     }

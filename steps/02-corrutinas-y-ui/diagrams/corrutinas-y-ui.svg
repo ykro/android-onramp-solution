@@ -38,13 +38,13 @@
 
   <rect x="354" y="204" width="252" height="86" rx="6" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1"/>
   <text x="366" y="224" fill="#0F2547" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11">try { action() }</text>
-  <text x="366" y="244" fill="#15803D" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11">catch (c: CancellationException)</text>
-  <text x="366" y="260" fill="#15803D" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11">  { throw c }</text>
-  <text x="366" y="278" fill="#2563EB" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11">catch (e: Exception) { "Error: ..." }</text>
+  <text x="366" y="244" fill="#15803D" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11">catch (e: Exception) { ... }</text>
+  <text x="366" y="260" fill="#15803D" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11">¿qué pasa con la cancelación?</text>
+  <text x="366" y="278" fill="#2563EB" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11"></text>
 
   <rect x="354" y="308" width="252" height="56" rx="6" fill="#FFF7ED" stroke="#FDBA74" stroke-width="1"/>
   <text x="366" y="330" fill="#9A3412" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700">Si la atrapas sin relanzarla:</text>
-  <text x="366" y="349" fill="#7C2D12" font-family="system-ui, -apple-system, sans-serif" font-size="12">La corrutina queda viva en fondo.</text>
+  <text x="366" y="349" fill="#7C2D12" font-family="system-ui, -apple-system, sans-serif" font-size="12">Sigue trabajando aunque ya nadie la espere.</text>
 
   <!-- Columna 3: var local vs remember -->
   <rect x="644" y="84" width="284" height="298" rx="10" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
@@ -61,7 +61,7 @@
   <text x="672" y="262" fill="#7F1D1D" font-family="system-ui, -apple-system, sans-serif" font-size="12">Redibujo 2 → vuelve a 0</text>
 
   <rect x="660" y="292" width="252" height="72" rx="6" fill="#ECFDF5" stroke="#86EFAC" stroke-width="1"/>
-  <text x="672" y="312" fill="#15803D" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11.5" font-weight="700">memory.remember("sessions") { 0 }</text>
+  <text x="672" y="312" fill="#15803D" font-family="ui-monospace, SFMono-Regular, monospace" font-size="11.5" font-weight="700">contador guardado fuera de la función</text>
   <text x="672" y="332" fill="#166534" font-family="system-ui, -apple-system, sans-serif" font-size="12">Redibujo 1 → 0 · clic → 1</text>
   <text x="672" y="350" fill="#166534" font-family="system-ui, -apple-system, sans-serif" font-size="12">Redibujo 2 → conserva 1</text>
 </svg>

@@ -1,5 +1,6 @@
 package onramp.m3
 
+import kotlinx.coroutines.test.runTest
 import mockwebserver3.MockResponse
 import mockwebserver3.MockWebServer
 import org.junit.Assert.assertEquals
@@ -7,7 +8,7 @@ import org.junit.Test
 
 class BookApiClientTest {
     @Test
-    fun `ejercicio 1a - BookApiClient lee JSON e ignora campos extra`() {
+    fun `ejercicio 1a - BookApiClient lee JSON e ignora campos extra`() = runTest {
         val server = MockWebServer()
         server.start()
         try {
@@ -41,7 +42,7 @@ class BookApiClientTest {
     }
 
     @Test
-    fun `ejercicio 1b - BookApiClient devuelve HttpError ante 500 y ParseError ante JSON invalido`() {
+    fun `ejercicio 1b - BookApiClient devuelve HttpError ante 500 y ParseError ante JSON inválido`() = runTest {
         val server = MockWebServer()
         server.start()
         try {
@@ -55,5 +56,21 @@ class BookApiClientTest {
         } finally {
             server.close()
         }
+    }
+
+    @Test
+    fun `ejercicio 1c - BookApiClient devuelve NetworkError si el servidor no contesta`() = runTest {
+        val server = MockWebServer()
+        server.start()
+        val baseUrl = server.url("/").toString()
+        server.close()
+
+        val result = BookApiClient(baseUrl).fetchBooks()
+
+        assertEquals(
+            "Sin servidor no hay respuesta ni código de estado. Convierte la IOException en NetworkError.",
+            ApiResult.NetworkError,
+            result,
+        )
     }
 }

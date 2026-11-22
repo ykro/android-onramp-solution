@@ -29,7 +29,7 @@ tasks.register("paso2") {
 
 tasks.register("paso3") {
     group = "verification"
-    description = "Paso 3: corre las 2 pruebas de HTTP y JSON tolerante con MockWebServer."
+    description = "Paso 3: corre las 3 pruebas de HTTP, JSON tolerante y errores de red con MockWebServer."
     dependsOn(":m3-http-y-sql:testPaso3")
 }
 

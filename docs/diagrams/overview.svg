@@ -8,39 +8,39 @@
     <text x="30" y="82" font-size="15" fill="#57534e">JDK 21 · Kotlin · Gradle · corrutinas · OkHttp · SQLite · JUnit · primera vez: del 0 al 5 en orden</text>
     <rect x="30" y="110" width="296" height="130" rx="12" fill="#ffffff" stroke="#d6d3d1"/>
     <rect x="30" y="110" width="6" height="130" rx="3" fill="#b45309"/>
-    <text x="52" y="142" font-size="13" font-weight="700" fill="#b45309">PASO 0 · 25 MIN</text>
+    <text x="52" y="142" font-size="13" font-weight="700" fill="#b45309">PASO 0 · 40 MIN</text>
     <text x="52" y="172" font-size="19" font-weight="700" fill="#1c1917">Entorno y Kotlin</text>
     <text x="52" y="200" font-size="14" fill="#44403c">doctor, tipos nulos, filter y when</text>
     <text x="52" y="220" font-size="14" fill="#44403c">PrimerosPasos.kt</text>
     <rect x="348" y="110" width="296" height="130" rx="12" fill="#ffffff" stroke="#d6d3d1"/>
     <rect x="348" y="110" width="6" height="130" rx="3" fill="#1d4ed8"/>
-    <text x="370" y="142" font-size="13" font-weight="700" fill="#1d4ed8">PASO 1 · 30 MIN</text>
+    <text x="370" y="142" font-size="13" font-weight="700" fill="#1d4ed8">PASO 1 · 50 MIN</text>
     <text x="370" y="172" font-size="19" font-weight="700" fill="#1c1917">Kotlin y StateFlow</text>
     <text x="370" y="200" font-size="14" fill="#44403c">lambdas con receptor y estado</text>
     <text x="370" y="220" font-size="14" fill="#44403c">DslBuilders.kt, OrderState.kt</text>
     <rect x="666" y="110" width="296" height="130" rx="12" fill="#ffffff" stroke="#d6d3d1"/>
     <rect x="666" y="110" width="6" height="130" rx="3" fill="#1d4ed8"/>
-    <text x="688" y="142" font-size="13" font-weight="700" fill="#1d4ed8">PASO 2 · 25 MIN</text>
+    <text x="688" y="142" font-size="13" font-weight="700" fill="#1d4ed8">PASO 2 · 45 MIN</text>
     <text x="688" y="172" font-size="19" font-weight="700" fill="#1c1917">Corrutinas y UI</text>
     <text x="688" y="200" font-size="14" fill="#44403c">delay, cancelación y remember</text>
     <text x="688" y="220" font-size="14" fill="#44403c">CoroutinesAndUi.kt</text>
     <rect x="30" y="262" width="296" height="130" rx="12" fill="#ffffff" stroke="#d6d3d1"/>
     <rect x="30" y="262" width="6" height="130" rx="3" fill="#1d4ed8"/>
-    <text x="52" y="294" font-size="13" font-weight="700" fill="#1d4ed8">PASO 3 · 20 MIN</text>
+    <text x="52" y="294" font-size="13" font-weight="700" fill="#1d4ed8">PASO 3 · 40 MIN</text>
     <text x="52" y="324" font-size="19" font-weight="700" fill="#1c1917">HTTP y JSON</text>
     <text x="52" y="352" font-size="14" fill="#44403c">OkHttp, JSON tolerante y errores</text>
     <text x="52" y="372" font-size="14" fill="#44403c">BookApiClient.kt</text>
     <rect x="348" y="262" width="296" height="130" rx="12" fill="#ffffff" stroke="#d6d3d1"/>
     <rect x="348" y="262" width="6" height="130" rx="3" fill="#1d4ed8"/>
-    <text x="370" y="294" font-size="13" font-weight="700" fill="#1d4ed8">PASO 4 · 30 MIN</text>
+    <text x="370" y="294" font-size="13" font-weight="700" fill="#1d4ed8">PASO 4 · 45 MIN</text>
     <text x="370" y="324" font-size="19" font-weight="700" fill="#1c1917">SQL y upsert</text>
     <text x="370" y="352" font-size="14" fill="#44403c">tablas, SELECT y ON CONFLICT</text>
     <text x="370" y="372" font-size="14" fill="#44403c">BookDatabase.kt</text>
     <rect x="666" y="262" width="296" height="130" rx="12" fill="#ffffff" stroke="#d6d3d1"/>
     <rect x="666" y="262" width="6" height="130" rx="3" fill="#1d4ed8"/>
-    <text x="688" y="294" font-size="13" font-weight="700" fill="#1d4ed8">PASO 5 · 20 MIN</text>
+    <text x="688" y="294" font-size="13" font-weight="700" fill="#1d4ed8">PASO 5 · 30 MIN</text>
     <text x="688" y="324" font-size="19" font-weight="700" fill="#1c1917">Tests desde cero</text>
-    <text x="688" y="352" font-size="14" fill="#44403c">rojo ante una versión con un bug</text>
+    <text x="688" y="352" font-size="14" fill="#44403c">rojo ante dos versiones con un bug</text>
     <text x="688" y="372" font-size="14" fill="#44403c">ReadingStreakStudentTest.kt</text>
     <text x="30" y="444" font-size="15" fill="#44403c">Revisar el entorno: ./gradlew doctor   ·   Verificar: ./gradlew pasoN --no-parallel   ·   Todo: ./gradlew ready</text>
   </g>

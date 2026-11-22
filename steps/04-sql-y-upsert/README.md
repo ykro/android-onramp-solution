@@ -2,7 +2,7 @@
 
 ![Paso 4. SQLite, `ON CONFLICT DO UPDATE` y puente hacia Room 3](diagrams/sql-upsert.svg)
 
-Este paso toma unos 30 minutos.
+Este paso toma unos 45 minutos.
 
 ## Antes de empezar
 

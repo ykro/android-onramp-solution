@@ -2,7 +2,7 @@
 
 ![Paso 2. Corrutinas, cancelación y estado en UI](diagrams/corrutinas-y-ui.svg)
 
-Este paso toma unos 25 minutos.
+Este paso toma unos 45 minutos.
 
 ## Antes de empezar
 
@@ -16,10 +16,22 @@ En Android la interfaz corre en el hilo principal; si lo bloqueas con `Thread.sl
 
 ## Lo mínimo que necesitas saber
 
+- **Hilo principal.** En Android, un solo hilo dibuja la pantalla y atiende los toques. Si ese hilo espera, la app se congela, y a los cinco segundos Android ofrece cerrarla.
+- **Corrutina.** Una tarea que puede pausarse y continuar después sin ocupar un hilo mientras espera. Miles de corrutinas pueden compartir pocos hilos. Se lanzan con `launch` dentro de un scope, como `viewModelScope` en el curso, y `launch` devuelve un `Job` con el que puedes cancelarla.
 - **`suspend`.** Marca una función que puede pausarse sin bloquear el hilo. Solo se puede llamar desde otra función `suspend` o desde una corrutina.
 - **`Flow`.** Una secuencia de valores que llegan con el tiempo. Se construye con `flow { emit(valor) }` y alguien lo recolecta con `collect`.
 - **Cancelación.** Cuando una corrutina se cancela, Kotlin lanza `CancellationException` dentro de ella para detenerla. Si la atrapas y no la vuelves a lanzar, la corrutina sigue viva.
-- **Recomposición.** En Compose, cada función de pantalla se vuelve a ejecutar cuando cambia su estado. Lo que deba sobrevivir entre ejecuciones tiene que vivir fuera de la función; `remember` lo guarda por ti. En este paso, `UiMemory` simula ese mecanismo.
+- **Recomposición.** En Compose, cada función de pantalla se vuelve a ejecutar cuando cambia su estado. Lo que deba sobrevivir entre ejecuciones tiene que vivir fuera de la función; `remember` lo guarda por ti. En este paso, `UiMemory` simula ese mecanismo. En Compose real se ve así:
+
+  ```kotlin
+  @Composable
+  fun Contador() {
+      var veces by remember { mutableStateOf(0) }
+      Button(onClick = { veces++ }) { Text("Clics: $veces") }
+  }
+  ```
+
+  Sin `remember`, `veces` volvería a 0 en cada redibujo, igual que el `count` del ejercicio 3.
 
 ## Qué vas a hacer
 

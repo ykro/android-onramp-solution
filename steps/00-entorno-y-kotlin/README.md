@@ -1,6 +1,6 @@
 # Paso 0. Entorno y tu primer programa en Kotlin
 
-Este paso toma unos 25 minutos.
+Este paso toma unos 40 minutos.
 
 ## Antes de empezar
 
@@ -18,7 +18,7 @@ Todo el curso de Android está escrito en [Kotlin](https://kotlinlang.org/docs/g
 - **Tipos nulos.** `String` nunca es `null`; `String?` puede serlo. El compilador no te deja llamar métodos sobre un `String?` sin revisar antes. `isNullOrBlank()`, el operador `?.` y el operador elvis `?:` son las herramientas de todos los días.
 - **`data class`.** Una clase que solo guarda datos, como `data class Libro(val titulo: String, val paginas: Int)`. Kotlin genera `equals`, `toString` y `copy` por ti.
 - **Plantillas de texto.** `"Hola, $nombre"` o `"Total: ${lista.size}"` arman texto sin concatenar.
-- **Lambdas y colecciones.** `filter { it.paginas > 300 }` se queda con los elementos que cumplen la condición, `map { it.titulo }` transforma cada elemento y `sorted()` ordena. `it` es el nombre por defecto del único parámetro de una lambda.
+- **Lambdas y colecciones.** Con `val personas = listOf(Persona("Ana", 20), Persona("Luis", 15))`, `personas.filter { it.edad >= 18 }` se queda con los elementos que cumplen la condición, `.map { it.nombre }` transforma cada elemento y `.sorted()` ordena. `it` es el nombre por defecto del único parámetro de una lambda.
 - **`when`.** Un `switch` que devuelve un valor y acepta condiciones, por ejemplo `when { x < 0 -> "negativo"; else -> "positivo" }`.
 - **Gradle.** `./gradlew` descarga la versión de Gradle que pide el proyecto y compila cada módulo (`m0-doctor`, `m1-...`). La primera vez tarda unos minutos porque baja dependencias.
 
@@ -40,7 +40,7 @@ Todo el curso de Android está escrito en [Kotlin](https://kotlinlang.org/docs/g
 
 1. Escribe `val x: String = null` dentro de `main` y compila. ¿Qué te dice Kotlin y en qué momento? Compáralo con lo que pasaría en Java.
 2. ¿Qué devuelve `librosLargos` si dos libros tienen el mismo título? ¿Cambiarías algo si el resultado debiera ser una lista sin repetidos?
-3. Si agregas `"Hombres de Maíz"` con `-10` páginas al estante, ¿qué parte de tu programa debería rechazarlo y por qué no es `librosLargos`?
+3. Si agregas `"Rayuela"` con `-10` páginas al estante, ¿qué parte de tu programa debería rechazarlo y por qué no es `librosLargos`?
 4. Explica en tres líneas, con tus palabras, qué cambiaste y por qué. Si no puedes, vuelve a la pista 1 antes de seguir.
 
 ## Cómo verificar

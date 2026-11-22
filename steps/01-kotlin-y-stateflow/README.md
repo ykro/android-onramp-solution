@@ -2,7 +2,7 @@
 
 ![Paso 1. Lambdas con receptor, `sealed interface` y `StateFlow`](diagrams/stateflow.svg)
 
-Este paso toma unos 30 minutos.
+Este paso toma unos 50 minutos.
 
 ## Antes de empezar
 
@@ -13,6 +13,27 @@ Este paso toma unos 30 minutos.
 ## Por qué importa
 
 En Jetpack Compose y Koin verás bloques como `Column { Text("Hola") }` y `module { single { ... } }` desde el primer día. Esa sintaxis combina dos reglas normales de Kotlin, las [trailing lambdas](https://kotlinlang.org/docs/lambdas.html#passing-trailing-lambdas) y las [lambdas con receptor](https://kotlinlang.org/docs/lambdas.html#function-literals-with-receiver). Además, casi todas las pantallas del curso leen su estado desde un [`StateFlow`](https://developer.android.com/kotlin/flow/stateflow-and-sharedflow), que solo avisa a la pantalla cuando el estado nuevo es distinto del anterior. Si modificas una lista dentro del estado, el anterior y el nuevo son el mismo objeto y la pantalla no se entera. Una [`sealed interface`](https://kotlinlang.org/docs/sealed-classes.html) con `when` hace que el compilador te avise cuando falta manejar un estado.
+
+## Lo mínimo que necesitas saber
+
+- **Tipos de función.** En Kotlin una función es un valor. `(Int) -> String` es el tipo de una función que recibe un `Int` y devuelve un `String`, y `() -> Unit` el de una que no recibe nada ni devuelve nada útil. Una lambda como `{ x: Int -> "n=$x" }` es un valor de ese tipo.
+- **Trailing lambda.** Si el último parámetro de una función es otra función, la lambda puede ir fuera de los paréntesis. `repeat(3) { println(it) }` es lo mismo que `repeat(3, { println(it) })`.
+- **Lambda con receptor.** En `ColumnScope.() -> Unit`, el tipo antes del punto es el receptor. Dentro de la lambda, `this` es ese objeto y puedes llamar a sus métodos sin escribir nada antes, como si estuvieras dentro de la clase.
+- **Así se ve en Compose.** Este es un `@Composable` real del curso. `Column` recibe una lambda con receptor `ColumnScope.() -> Unit`, igual que tu `miniColumn`, y `Text` se llama dentro de ese scope.
+
+  ```kotlin
+  @Composable
+  fun Saludo(nombres: List<String>) {
+      Column {
+          Text("Lectores de hoy")
+          nombres.forEach { Text(it) }
+      }
+  }
+  ```
+
+- **Koin.** Es la librería de inyección de dependencias del curso. En lugar de que cada clase cree lo que necesita, declaras en un `module { single { ... } }` cómo se construye cada pieza y Koin la entrega. Tu `miniModule` imita esa sintaxis.
+- **`sealed interface`.** Un tipo con una lista cerrada de subtipos, todos declarados en el mismo archivo. Por eso el compilador sabe cuándo un `when` cubre todos los casos.
+- **`StateFlow`.** Un valor observable. La pantalla lo escucha y se redibuja cada vez que recibe un estado distinto del anterior.
 
 ## Qué vas a hacer
 

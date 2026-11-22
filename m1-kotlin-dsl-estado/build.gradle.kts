@@ -12,6 +12,6 @@ dependencies {
 tasks.test {
     testLogging {
         events("passed", "failed")
-        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.SHORT
+        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
     }
 }
