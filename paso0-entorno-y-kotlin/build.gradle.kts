@@ -69,25 +69,29 @@ tasks.register("doctor") {
             ?.sorted()
             .orEmpty()
 
+        val isWindows = System.getProperty("os.name").orEmpty().lowercase().contains("win")
+
         if (sdkDir != null && sdkDir.isDirectory && installedPlatforms.isNotEmpty()) {
             val source = if (envAndroidHome != null) "ANDROID_HOME" else "ruta por defecto"
             println("[OK] Android SDK ($source): ${sdkDir.absolutePath}")
             println("[OK] Plataformas instaladas: ${installedPlatforms.joinToString(", ")}")
             if (envAndroidHome == null) {
                 println("[AVISO] Conviene exportar ANDROID_HOME en tu terminal:")
-                println("        export ANDROID_HOME=\"${sdkDir.absolutePath}\"")
+                if (isWindows) {
+                    println("        ${'$'}env:ANDROID_HOME = \"${sdkDir.absolutePath}\"")
+                } else {
+                    println("        export ANDROID_HOME=\"${sdkDir.absolutePath}\"")
+                }
             }
         } else {
-            println("[FALTA] No se encontró un Android SDK válido con plataformas instaladas.")
-            issues += """
-                Configura el SDK de Android antes de pasar a android-course:
-                  1. Abre Android Studio -> Settings -> Languages & Frameworks -> Android SDK.
-                  2. Instala al menos una plataforma reciente (por ejemplo Android 35 o 36).
-                  3. Exporta ANDROID_HOME en tu terminal:
-                     - macOS: export ANDROID_HOME="${'$'}HOME/Library/Android/sdk"
-                     - Linux: export ANDROID_HOME="${'$'}HOME/Android/Sdk"
-                     - Windows (PowerShell): ${'$'}env:ANDROID_HOME = "${'$'}env:LOCALAPPDATA\\Android\\Sdk"
-            """.trimIndent()
+            println("[AVISO] No se encontró un Android SDK válido con plataformas instaladas.")
+            println("        Los 7 pasos de este on-ramp corren en la JVM y no se bloquean, pero configura el SDK antes de pasar a android-course:")
+            println("          1. Abre Android Studio -> Settings -> Languages & Frameworks -> Android SDK.")
+            println("          2. Instala al menos una plataforma reciente (por ejemplo Android 35 o 36).")
+            println("          3. Exporta ANDROID_HOME en tu terminal:")
+            println("             - macOS: export ANDROID_HOME=\"${'$'}HOME/Library/Android/sdk\"")
+            println("             - Linux: export ANDROID_HOME=\"${'$'}HOME/Android/Sdk\"")
+            println("             - Windows (PowerShell): ${'$'}env:ANDROID_HOME = \"${'$'}env:LOCALAPPDATA\\Android\\Sdk\"")
         }
 
         println()

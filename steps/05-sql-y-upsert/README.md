@@ -18,13 +18,44 @@ Las apps del curso guardan datos en el teléfono con [Room 3](https://developer.
 
 Si nunca has usado una base de datos, este recuadro alcanza para el paso.
 
-- **Tabla.** Guarda datos en filas y columnas, como una hoja de cálculo donde cada columna tiene un tipo. `CREATE TABLE IF NOT EXISTS books (...)` la crea si todavía no existe.
+- **Tabla.** Guarda datos en filas y columnas, como una hoja de cálculo donde cada columna tiene un tipo. Un `CREATE TABLE IF NOT EXISTS` concreto se ve así:
+
+  ```sql
+  CREATE TABLE IF NOT EXISTS books (
+      id INTEGER PRIMARY KEY,
+      title TEXT NOT NULL,
+      author TEXT NOT NULL,
+      favorite INTEGER NOT NULL DEFAULT 0,
+      local_note TEXT NOT NULL DEFAULT ''
+  )
+  ```
+
 - **Llave primaria.** Una columna marcada `PRIMARY KEY` identifica cada fila; no puede haber dos filas con el mismo valor. Aquí es el `id` del libro.
 - **Restricciones.** `NOT NULL` obliga a que la columna tenga valor y `DEFAULT 0` define el valor cuando no lo mandas.
 - **Leer.** `SELECT columnas FROM tabla WHERE condición ORDER BY columna ASC` trae las filas que cumplen la condición, ordenadas.
-- **Escribir.** `INSERT INTO tabla (columnas) VALUES (?, ?)` agrega una fila y `UPDATE tabla SET columna = ? WHERE id = ?` cambia filas existentes. Si insertas un `id` que ya existe, SQLite reporta un conflicto.
+- **Escribir y upsert.** `INSERT INTO tabla (columnas) VALUES (?, ?)` agrega una fila y `UPDATE tabla SET columna = ? WHERE id = ?` cambia filas existentes. Si insertas un `id` que ya existe, SQLite reporta un conflicto; con `ON CONFLICT(id) DO UPDATE` decides qué columnas actualizar y conservas el resto:
+
+  ```sql
+  INSERT INTO books (id, title, author) VALUES (?, ?, ?)
+  ON CONFLICT(id) DO UPDATE SET
+      title = excluded.title,
+      author = excluded.author
+  ```
+
+  En SQLite, `excluded` representa la fila nueva que intentaste insertar y chocó con una fila que ya tenía ese `id`.
 - **Parámetros `?`.** Los valores se pasan aparte con `statement.setInt(1, ...)` y nunca se pegan dentro del texto SQL. Así un título con comillas no rompe la consulta ni permite inyección SQL.
-- **JDBC.** Es la forma estándar de hablar con bases de datos desde la JVM. `connection.prepareStatement(sql)` prepara la consulta y `executeQuery()` devuelve un `ResultSet` que recorres fila por fila.
+- **JDBC.** Es la forma estándar de hablar con bases de datos desde la JVM. Para ejecutar un `SELECT` sin parámetros y recorrer el `ResultSet` fila por fila:
+
+  ```kotlin
+  connection.createStatement().use { statement ->
+      statement.executeQuery("SELECT id, title FROM books").use { rows ->
+          while (rows.next()) {
+              val id = rows.getInt("id")
+              val title = rows.getString("title")
+          }
+      }
+  }
+  ```
 
 ### Equivalencias con Room 3
 
@@ -59,7 +90,7 @@ Si nunca has usado una base de datos, este recuadro alcanza para el paso.
 
 Si te trabas, abre la [pista 1](hints/1.md). Cada pista da un poco más que la anterior; la pista 3 trae un esqueleto, nunca la respuesta completa.
 
-## Respuestas de autoevaluación
+## Respuestas de autoevaluación («Al terminar»)
 
 1. No hace nada con él, el libro se queda en el teléfono. Borrarlo o no es una decisión de producto; si la persona lo marcó como favorito, quizás conviene conservarlo y marcarlo como no disponible.
 2. En una interfaz anotada con `@Dao`, como un método con `@Query("SELECT ... WHERE favorite = 1 ORDER BY title ASC")`. Room revisa esa consulta al compilar.

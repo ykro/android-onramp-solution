@@ -3,13 +3,16 @@ package onramp.paso2
 import app.cash.turbine.test
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.currentTime
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class Paso2Test {
     @Test
     fun `CA-2_1 - countdownTicks emite toda la cuenta usando reloj virtual sin esperar tiempo real`() = runTest {
@@ -22,6 +25,12 @@ class Paso2Test {
             assertEquals(0, awaitItem())
             awaitComplete()
         }
+
+        assertEquals(
+            "El reloj virtual debe avanzar 30_000 ms (3 pausas de 10_000 ms). No omitas delay().",
+            30_000L,
+            currentTime,
+        )
 
         val elapsedRealMs = System.currentTimeMillis() - startRealMs
         assertTrue(

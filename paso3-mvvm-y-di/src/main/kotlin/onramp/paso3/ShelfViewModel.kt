@@ -43,24 +43,33 @@ class ShelfViewModel(
     // Ejercicio 1: la elección pasa por el BookPicker inyectado, no por `random()` directo,
     // y llega después de un `delay` dentro de viewModelScope, que Android cancela al cerrar la pantalla.
     private fun suggest() {
-        val options = _uiState.value.pending
-        if (options.isEmpty()) return
+        if (_uiState.value.pending.isEmpty()) return
         viewModelScope.launch {
             delay(SUGGEST_DELAY_MS)
-            val choice = picker.pick(options)
-            _uiState.update { it.copy(suggestion = choice) }
+            _uiState.update { state ->
+                if (state.pending.isEmpty()) {
+                    state
+                } else {
+                    state.copy(suggestion = picker.pick(state.pending))
+                }
+            }
         }
     }
 
     // Ejercicio 2, parte B: el repositorio se entera y el estado nuevo sale de copy.
     private fun markRead(title: String) {
+        if (title !in _uiState.value.pending) return
         repository.markRead(title)
         _uiState.update { state ->
-            state.copy(
-                pending = state.pending - title,
-                readCount = state.readCount + 1,
-                suggestion = state.suggestion.takeIf { it != title },
-            )
+            if (title !in state.pending) {
+                state
+            } else {
+                state.copy(
+                    pending = state.pending - title,
+                    readCount = state.readCount + 1,
+                    suggestion = state.suggestion.takeIf { it != title },
+                )
+            }
         }
     }
 

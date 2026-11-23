@@ -1,13 +1,12 @@
 package onramp.paso3
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotSame
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertSame
@@ -66,9 +65,11 @@ class ShelfViewModelTest {
         assertNull("CA-3.2 «A» era la sugerencia, así que la sugerencia queda en null.", after.suggestion)
         assertEquals("CA-3.2 El repositorio también se entera.", listOf("B"), repository.pending())
 
-        assertFalse(
-            "CA-3.2 Desde afuera, uiState no debe dejarse escribir: la pantalla lee, el ViewModel decide.",
-            (viewModel.uiState as Any) is MutableStateFlow<*>,
+        val declaredUiStateType = ShelfViewModel::class.java.getMethod("getUiState").returnType
+        assertEquals(
+            "CA-3.2 Desde afuera, uiState debe exponerse como StateFlow de solo lectura (por ejemplo con _uiState.asStateFlow()): la pantalla lee, el ViewModel decide.",
+            StateFlow::class.java,
+            declaredUiStateType,
         )
     }
 

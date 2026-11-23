@@ -24,7 +24,7 @@ Todo el curso de Android está escrito en [Kotlin](https://kotlinlang.org/docs/g
 
 ## Qué vas a hacer
 
-- **Preparar.** Instala [Android Studio](https://developer.android.com/studio), que trae un JDK 21 y el Android SDK. Si ya tienes un JDK 21 aparte, también sirve. Corre `./gradlew doctor --no-parallel` (en Windows, `gradlew.bat doctor --no-parallel`) y sigue lo que te pida hasta que diga `[OK] Entorno listo para trabajar.`
+- **Preparar.** Instala [Android Studio](https://developer.android.com/studio), que trae un JDK 21 y el Android SDK. Si ya tienes un JDK 21 aparte, también sirve. Corre `./gradlew doctor --no-parallel` (en Windows PowerShell, `.\gradlew.bat doctor --no-parallel`) y sigue lo que te pida hasta que diga `[OK] Entorno listo para trabajar.`
 - **Leer.** Corre `./gradlew :paso0-entorno-y-kotlin:run --no-parallel` y compara lo que imprime con [PrimerosPasos.kt](../../paso0-entorno-y-kotlin/src/main/kotlin/onramp/paso0/PrimerosPasos.kt). Ubica qué función produce cada línea.
 - **Debuguear.** Tres de las líneas impresas están mal. Lee los tres `TODO` y anota qué esperabas ver en cada una.
 - **Escribir.** Corrige las tres funciones. Intenta escribir `librosLargos` sin `for`, con funciones de colecciones. Vuelve a correr el programa después de cada cambio.
@@ -50,7 +50,7 @@ Todo el curso de Android está escrito en [Kotlin](https://kotlinlang.org/docs/g
 
 Si te trabas, abre la [pista 1](hints/1.md). Cada pista da un poco más que la anterior; la pista 3 trae un esqueleto, nunca la respuesta completa.
 
-## Respuestas de autoevaluación
+## Respuestas de autoevaluación («Al terminar»)
 
 1. Kotlin no compila y avisa que `null` no puede ser un valor de un tipo no nulo `String`. Te enteras al compilar. En Java la asignación compila y el error aparece al correr, como `NullPointerException`, cuando alguien usa la variable.
 2. La validación pertenece a quien crea el `Libro` (por ejemplo, un `init` con `require(paginas > 0)` en la `data class`). `librosLargos` responde una pregunta sobre libros válidos; si cada función revisara todo, el código se llenaría de validaciones repetidas.

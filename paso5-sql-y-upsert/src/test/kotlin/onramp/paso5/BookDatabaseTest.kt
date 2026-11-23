@@ -37,21 +37,21 @@ class BookDatabaseTest {
             )
             db.setFavoriteAndNote(1, favorite = true, note = "Mi libro favorito")
 
-            // La API corrige el título y vuelve a sincronizar el mismo id.
+            // La API corrige el título y el autor y vuelve a sincronizar el mismo id.
             db.syncFromApi(
                 listOf(
-                    BookDto(1, "Kotlin Moderno", "Ana López"),
+                    BookDto(1, "Kotlin Moderno", "Ana López (ed. revisada)"),
                 ),
             )
 
             val favorites = db.findFavoritesOrderedByTitle()
             assertEquals(
-                "Al sincronizar de nuevo se borró favorite o local_note. Revisa qué hace tu SQL cuando el id ya existe.",
+                "Al sincronizar de nuevo deben actualizarse title y author sin borrar favorite ni local_note. Revisa qué hace tu SQL cuando el id ya existe.",
                 listOf(
                     StoredBook(
                         id = 1,
                         title = "Kotlin Moderno",
-                        author = "Ana López",
+                        author = "Ana López (ed. revisada)",
                         favorite = true,
                         localNote = "Mi libro favorito",
                     ),

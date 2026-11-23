@@ -31,7 +31,7 @@ En Jetpack Compose y Koin verás bloques como `Column { Text("Hola") }` y `modul
   }
   ```
 
-- **`sealed interface`.** Un tipo con una lista cerrada de subtipos, todos declarados en el mismo archivo. Por eso el compilador sabe cuándo un `when` cubre todos los casos.
+- **`sealed interface`.** Un tipo con una lista cerrada de subtipos, todos declarados en el mismo paquete y módulo. Por eso el compilador sabe cuándo un `when` cubre todos los casos.
 - **`StateFlow`.** Un valor observable. La pantalla lo escucha y se redibuja cada vez que recibe un estado distinto del anterior.
 
 ## Qué vas a hacer
@@ -60,7 +60,7 @@ En Jetpack Compose y Koin verás bloques como `Column { Text("Hola") }` y `modul
 
 Si te trabas, abre la [pista 1](hints/1.md). Cada pista da un poco más que la anterior; la pista 3 trae un esqueleto, nunca la respuesta completa.
 
-## Respuestas de autoevaluación
+## Respuestas de autoevaluación («Al terminar»)
 
 1. El compilador marca el `when` como no exhaustivo y no compila hasta que agregues la rama. Con un `else`, compilaría y el estado nuevo caería en esa rama sin que nadie lo note.
 2. No. `copy()` sin cambios crea un objeto nuevo, pero `StateFlow` compara con `==` y una `data class` con los mismos valores es igual a la anterior, así que no emite. Eso evita redibujos inútiles.

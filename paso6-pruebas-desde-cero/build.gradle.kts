@@ -32,10 +32,18 @@ tasks.test {
         }
     })
     doLast {
-        // Cada @Test debe llamar a computeReadingStreak y comprobar el resultado con un assert.
+        // Cada @Test activo debe llamar a computeReadingStreak y comprobar el resultado con un assert.
         val archivo = file("src/test/kotlin/onramp/paso6/ReadingStreakStudentTest.kt")
-        val debiles = archivo.readText().split("@Test").drop(1).mapNotNull { bloque ->
-            val nombre = Regex("fun\\s+(`[^`]+`|\\w+)").find(bloque)?.groupValues?.get(1) ?: return@mapNotNull null
+        val sinComentarios = archivo.readText()
+            .replace(Regex("/\\*[\\s\\S]*?\\*/"), "")
+            .replace(Regex("//[^\\n]*"), "")
+        val bloques = sinComentarios.split("@Test")
+        val debiles = bloques.drop(1).mapIndexedNotNull { idx, bloque ->
+            val previo = bloques[idx]
+            val ignoradoAntes = Regex("@Ignore(\\s*\\([^)]*\\))?\\s*$").containsMatchIn(previo)
+            val ignoradoDespues = Regex("@Ignore\\b").containsMatchIn(bloque.substringBefore("fun"))
+            if (ignoradoAntes || ignoradoDespues) return@mapIndexedNotNull null
+            val nombre = Regex("fun\\s+(`[^`]+`|\\w+)").find(bloque)?.groupValues?.get(1) ?: return@mapIndexedNotNull null
             val cuerpo = bloque.substringAfter(nombre)
             if ("computeReadingStreak(" in cuerpo && Regex("\\bassert\\w*\\(").containsMatchIn(cuerpo)) null else nombre
         }
@@ -119,4 +127,8 @@ tasks.register("verificarPaso6") {
         println()
         println("[OK] Paso 6 completo. Tus tests detectan versionA y versionB.")
     }
+}
+
+tasks.named("check") {
+    dependsOn("verificarPaso6")
 }

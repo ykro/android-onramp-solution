@@ -29,10 +29,11 @@ sealed interface ApiResult<out T> {
 
 /**
  * Ejercicio 1 (HTTP + JSON tolerante a campos extra):
- * - Haz GET a `"$baseUrl/books"`.
+ * - Haz GET a `"$baseUrl/books"` dentro de `withContext(dispatcher)`, nunca en el hilo que llama.
  * - Si `!response.isSuccessful`, devuelve `ApiResult.HttpError(response.code)`.
- * - Decodifica el JSON como `List<BookDto>` ignorando campos desconocidos (`ignoreUnknownKeys = true`).
+ * - Decodifica el JSON como `List<BookDto>` sin fallar cuando el API agrega campos que `BookDto` no conoce.
  * - Si el JSON está roto (`SerializationException`), devuelve `ApiResult.ParseError`.
+ * - Si el servidor no contesta (`IOException`), devuelve `ApiResult.NetworkError`.
  */
 class BookApiClient(
     private val baseUrl: String,

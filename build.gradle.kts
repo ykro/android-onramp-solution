@@ -53,6 +53,16 @@ tasks.register("paso6") {
     dependsOn(":paso6-pruebas-desde-cero:verificarPaso6")
 }
 
+tasks.register("readyU1") {
+    group = "verification"
+    description = "Corre la ruta de la Unidad 1 (pasos 0, 1, 2, 3 y 6)."
+    dependsOn("paso0", "paso1", "paso2", "paso3", "paso6")
+    doLast {
+        println()
+        println("[OK] Ruta de la Unidad 1 en verde.")
+    }
+}
+
 tasks.register("ready") {
     group = "verification"
     description = "Corre los 7 pasos, del 0 al 6."

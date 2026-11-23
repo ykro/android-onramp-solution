@@ -43,12 +43,13 @@ En los pasos anteriores corriste tests que escribió el curso. En [android-cours
 
 ```bash
 ./gradlew paso6 --no-parallel
+./gradlew readyU1 --no-parallel
 ./gradlew ready --no-parallel
 ```
 
 Si te trabas, abre la [pista 1](hints/1.md). Cada pista da un poco más que la anterior; la pista 3 trae un esqueleto, nunca la respuesta completa.
 
-## Respuestas de autoevaluación
+## Respuestas de autoevaluación («Al terminar»)
 
 1. Por ejemplo, `assertEquals(3, computeReadingStreak(listOf(10, 20, 30)))`. Sin ceros ni negativos, las tres versiones dan lo mismo; el test pasa siempre y no detecta nada.
 2. Una lista donde la racha más larga quede al principio y la última sea más corta, como `listOf(10, 20, 30, 0, 5)`. La correcta devuelve `3` y esa versión devolvería `1`.

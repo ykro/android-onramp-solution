@@ -60,7 +60,7 @@ En Android la interfaz corre en el hilo principal; si lo bloqueas con `Thread.sl
 
 Si te trabas, abre la [pista 1](hints/1.md). Cada pista da un poco más que la anterior; la pista 3 trae un esqueleto, nunca la respuesta completa.
 
-## Respuestas de autoevaluación
+## Respuestas de autoevaluación («Al terminar»)
 
 1. El test tarda unos 30 segundos reales y falla el límite de 2 segundos. `Thread.sleep` bloquea el hilo de verdad y no pasa por el planificador de corrutinas, así que el reloj virtual no se entera de que hay una espera.
 2. El clic sí cambiaba el estado, y por eso Compose volvía a llamar `StudyCounterScreen`. Pero esa nueva llamada ejecutaba `mutableStateOf(0)` otra vez y creaba un estado nuevo en 0. Con `remember { mutableStateOf(0) }`, Compose crea el estado en la primera llamada y lo devuelve en las siguientes.
